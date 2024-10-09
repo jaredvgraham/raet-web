@@ -9,13 +9,13 @@ const PrivacyPolicy = () => {
 
         <section className="mt-6 space-y-6">
           <p>
-            Raet ("we", "us", "our") is committed to protecting your privacy.
-            This Privacy Policy explains how we collect, use, disclose, and
-            safeguard your information when you use our dating app, Raet (the
-            "App"). Please read this policy carefully to understand our
-            practices regarding your personal data and how we will treat it. By
-            using Raet, you agree to the collection and use of information as
-            described in this Privacy Policy.
+            Raet (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) is committed
+            to protecting your privacy. This Privacy Policy explains how we
+            collect, use, disclose, and safeguard your information when you use
+            our dating app, Raet (the &quot;App&quot;). Please read this policy
+            carefully to understand our practices regarding your personal data
+            and how we will treat it. By using Raet, you agree to the collection
+            and use of information as described in this Privacy Policy.
           </p>
 
           <h2 className="text-2xl font-semibold">1. Information We Collect</h2>
@@ -26,22 +26,22 @@ const PrivacyPolicy = () => {
 
           <h3 className="text-xl font-semibold">1.1 Personal Information</h3>
           <p>
-            - **Profile Information**: When you sign up for Raet, we collect
-            information such as your name, email address, date of birth, gender,
-            and photos. <br />
-            - **Location Data**: We collect your geolocation data to show nearby
-            matches. <br />- **Preferences**: Information regarding your
+            - <strong>Profile Information</strong>: When you sign up for Raet,
+            we collect information such as your name, email address, date of
+            birth, gender, and photos. <br />- <strong>Location Data</strong>:
+            We collect your geolocation data to show nearby matches. <br />-{" "}
+            <strong>Preferences</strong>: Information regarding your
             preferences, such as who you are interested in matching with
             (gender, age range, etc.).
           </p>
 
           <h3 className="text-xl font-semibold">1.2 Usage Data</h3>
           <p>
-            - **App Interactions**: Information on how you use the app,
-            including interactions with other users, matches, swipes, and
-            messages. <br />- **Device Information**: Details about the device
-            you use to access the app, such as your IP address, device type,
-            operating system, and browser type.
+            - <strong>App Interactions</strong>: Information on how you use the
+            app, including interactions with other users, matches, swipes, and
+            messages. <br />- <strong>Device Information</strong>: Details about
+            the device you use to access the app, such as your IP address,
+            device type, operating system, and browser type.
           </p>
 
           <h3 className="text-xl font-semibold">1.3 Photos and Media</h3>
@@ -63,7 +63,7 @@ const PrivacyPolicy = () => {
               Matching you with other users based on your location and
               preferences.
             </li>
-            <li>Improving the app’s performance and user experience.</li>
+            <li>Improving the app&#39;s performance and user experience.</li>
             <li>
               Communicating with you regarding updates, promotions, and support.
             </li>
@@ -81,18 +81,19 @@ const PrivacyPolicy = () => {
           </p>
           <ul className="list-disc ml-5 mt-2">
             <li>
-              **Service Providers**: We may share your information with
-              third-party service providers who help us operate the app (e.g.,
-              hosting services, payment processors).
+              <strong>Service Providers</strong>: We may share your information
+              with third-party service providers who help us operate the app
+              (e.g., hosting services, payment processors).
             </li>
             <li>
-              **Legal Requirements**: We may share your information if required
-              by law or if we believe that sharing is necessary to comply with
-              legal obligations.
+              <strong>Legal Requirements</strong>: We may share your information
+              if required by law or if we believe that sharing is necessary to
+              comply with legal obligations.
             </li>
             <li>
-              **Business Transfers**: In the event of a merger, acquisition, or
-              sale of assets, we may transfer your information to the new owner.
+              <strong>Business Transfers</strong>: In the event of a merger,
+              acquisition, or sale of assets, we may transfer your information
+              to the new owner.
             </li>
           </ul>
 
@@ -110,16 +111,16 @@ const PrivacyPolicy = () => {
           </p>
           <ul className="list-disc ml-5 mt-2">
             <li>
-              **Access and Correction**: You can access and update your personal
-              information by logging into your account settings.
+              <strong>Access and Correction</strong>: You can access and update
+              your personal information by logging into your account settings.
             </li>
             <li>
-              **Data Deletion**: You can request the deletion of your account
-              and data by contacting us at support@raet.io.
+              <strong>Data Deletion</strong>: You can request the deletion of
+              your account and data by contacting us at support@raet.io.
             </li>
           </ul>
 
-          <h2 className="text-2xl font-semibold">6. Children's Privacy</h2>
+          <h2 className="text-2xl font-semibold">6. Children&#39;s Privacy</h2>
           <p>
             Raet is not intended for use by individuals under the age of 18. We
             do not knowingly collect personal information from children under
@@ -141,10 +142,8 @@ const PrivacyPolicy = () => {
           <h2 className="text-2xl font-semibold">8. Contact Us</h2>
           <p>
             If you have any questions or concerns about this Privacy Policy,
-            please contact us at:
-            <br />
-            Email: support@raet.io
-            <br />
+            please contact us at: <br />
+            Email: support@raet.io <br />
             Address: 75 Raymond RD, 02360
           </p>
         </section>

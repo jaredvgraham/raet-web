@@ -1,4 +1,3 @@
-// components/TermsModal.js
 import Link from "next/link";
 import React from "react";
 
@@ -13,8 +12,8 @@ const TermsOfService = () => {
           <p>
             Welcome to Raet, a dating app designed to help you find meaningful
             connections. By using our app, you agree to these Terms of Service
-            ("Terms"). If you do not agree to these Terms, you may not access or
-            use the app. Please read them carefully.
+            (&quot;Terms&quot;). If you do not agree to these Terms, you may not
+            access or use the app. Please read them carefully.
           </p>
 
           <h2 className="text-2xl font-semibold">1. Acceptance of Terms</h2>
