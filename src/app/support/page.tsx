@@ -1,4 +1,3 @@
-// pages/support.js
 import React from "react";
 
 const Support = () => {
@@ -12,7 +11,7 @@ const Support = () => {
         <ul className="list-disc ml-5 space-y-4">
           <li>
             <strong>How do I reset my password?</strong> - Visit the settings
-            page and click "Forgot Password".
+            page and click &quot;Forgot Password&quot;.
           </li>
           <li>
             <strong>How do I delete my account?</strong> - You can delete your
