@@ -11,7 +11,7 @@ export default function Home() {
           <h1 className="text-4xl font-bold">Find Your Perfect Match Faster</h1>
           <p className="mt-4 text-lg">
             A smarter way to date—connect with the right people, quicker than
-            ever before.
+            ever before..
           </p>
           <div className="mt-8">
             <Link
