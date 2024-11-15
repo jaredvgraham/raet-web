@@ -14,12 +14,12 @@ export default function Home() {
             ever before.
           </p>
           <div className="mt-8">
-            <a
-              href="#features"
-              className="bg-white text-teal-600 font-semibold px-6 py-3 rounded-full mr-4"
+            <Link
+              href={"/sign-up"}
+              className=" bg-white text-teal-600 font-semibold px-6 py-3 rounded-full mr-4"
             >
-              Mobile coming soon..
-            </a>
+              Get Started!
+            </Link>
           </div>
         </div>
       </header>
