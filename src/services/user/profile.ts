@@ -22,3 +22,35 @@ export const createUserProfile = async (
 
   return user;
 };
+
+export const getUserProfile = async (
+  userId: string
+): Promise<IUser | false> => {
+  const user = await User.findOne({ clerkId: userId });
+
+  if (!user) {
+    return false;
+  }
+  return user;
+};
+
+export const updateUserLocation = async (
+  userId: string,
+  lon: number,
+  lat: number
+) => {
+  const user = await User.findOne({ clerkId: userId });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  user.location = {
+    type: "Point",
+    coordinates: [lon, lat],
+  };
+
+  await user.save();
+
+  return user;
+};
