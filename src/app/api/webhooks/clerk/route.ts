@@ -71,10 +71,11 @@ export async function POST(req: NextRequest) {
     const eventType = evt.type;
 
     if (eventType === "user.created") {
-      const { id, email_addresses } = evt.data;
+      const { id, email_addresses, username } = evt.data;
       const user = {
         clerkId: id,
         email: email_addresses[0].email_address,
+        name: username,
       };
       console.log("user", user);
 
