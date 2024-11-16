@@ -220,5 +220,5 @@ export const rateUser = async (ratedUserId: string, newRating: number) => {
   ratedUser.ratings.push(newRating);
 
   await ratedUser.save();
-  console.log("User rated successfully"), ratedUser;
+  console.log("User rated successfully", ratedUser);
 };
