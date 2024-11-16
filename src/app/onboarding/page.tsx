@@ -230,8 +230,11 @@ const Onboarding: React.FC = () => {
           </p>
           {uploadedFiles && (
             <div className="grid grid-cols-2 gap-2">
-              {Array.from(uploadedFiles).map((file) => (
-                <div className="w-44 h-44 relative rounded overflow-hidden">
+              {Array.from(uploadedFiles).map((file, index) => (
+                <div
+                  className="w-44 h-44 relative rounded overflow-hidden"
+                  key={index}
+                >
                   <Image
                     key={file.name}
                     alt="Uploaded Image"
