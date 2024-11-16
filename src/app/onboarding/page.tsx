@@ -231,12 +231,13 @@ const Onboarding: React.FC = () => {
           {uploadedFiles && (
             <div className="grid grid-cols-2 gap-2">
               {Array.from(uploadedFiles).map((file) => (
-                <div className="w-44  relative rounded overflow-hidden">
-                  <img
+                <div className="w-44 h-44 relative rounded overflow-hidden">
+                  <Image
                     key={file.name}
                     alt="Uploaded Image"
                     src={URL.createObjectURL(file)}
-                    className=" w-full  "
+                    fill
+                    className="object-contain"
                   />
                 </div>
               ))}
