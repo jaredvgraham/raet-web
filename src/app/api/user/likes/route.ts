@@ -1,3 +1,4 @@
+import { connectDB } from "@/lib/db";
 import Block from "@/models/blockModel";
 import Like from "@/models/likeModel";
 import User from "@/models/userModel";
@@ -8,6 +9,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
+    await connectDB();
     console.log("entered getUserLikes");
 
     const { userId } = await auth();
@@ -37,8 +39,10 @@ export async function GET(req: NextRequest) {
           if (likedUser && !likedUser.matchedUsers?.includes(user.clerkId)) {
             const userAverageRating =
               likedUser.ratings && likedUser.ratings.length > 0
-                ? likedUser.ratings.reduce((acc, curr) => acc + curr, 0) /
-                  likedUser.ratings.length
+                ? likedUser.ratings.reduce(
+                    (acc: any, curr: any) => acc + curr,
+                    0
+                  ) / likedUser.ratings.length
                 : 0;
 
             const maxDistanceMeters =
