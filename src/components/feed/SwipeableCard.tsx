@@ -10,7 +10,7 @@ interface SwipeableCardProps {
   onSwipeRight: () => void;
   onSwipeLeft: () => void;
   isCurrentCard: boolean;
-  onRateChange: (number: number) => void;
+  setRate: (rate: number) => void;
   rate: number | null;
 }
 
@@ -19,19 +19,16 @@ const SwipeableCard = ({
   onSwipeRight,
   onSwipeLeft,
   isCurrentCard,
-  onRateChange,
+  setRate,
   rate,
 }: SwipeableCardProps) => {
   const controls = useAnimation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [dragDirection, setDragDirection] = useState<string | null>(null);
-  const [dragging, setDragging] = useState(false);
 
-  const swipeThreshold = 100;
+  const swipeThreshold = 60;
 
   const handleDrag = (event: PointerEvent, info: { offset: { x: number } }) => {
-    setDragging(true);
-
     if (info.offset.x > swipeThreshold) {
       setDragDirection("right");
     } else if (info.offset.x < -swipeThreshold) {
@@ -45,16 +42,26 @@ const SwipeableCard = ({
     event: PointerEvent,
     info: { offset: { x: number } }
   ) => {
-    setDragging(false);
-
     if (info.offset.x > swipeThreshold) {
-      await controls.start({ x: 1000, opacity: 0 });
+      await controls.start({
+        x: 1000,
+        opacity: 0,
+        transition: { type: "spring", stiffness: 120, damping: 12 },
+      });
       onSwipeRight();
     } else if (info.offset.x < -swipeThreshold) {
-      await controls.start({ x: -1000, opacity: 0 });
+      await controls.start({
+        x: -1000,
+        opacity: 0,
+        transition: { type: "spring", stiffness: 120, damping: 12 },
+      });
       onSwipeLeft();
     } else {
-      await controls.start({ x: 0, opacity: 1 });
+      await controls.start({
+        x: 0,
+        opacity: 1,
+        transition: { type: "spring", stiffness: 80, damping: 15 },
+      });
       setDragDirection(null);
     }
   };
@@ -74,17 +81,18 @@ const SwipeableCard = ({
 
   return (
     <motion.div
-      className={`absolute w-full h-full `}
+      className="absolute w-full h-full "
       initial={{ x: 0, opacity: 1 }}
       animate={controls}
-      drag={isCurrentCard ? "x" : false}
+      drag={isCurrentCard ? true : false}
       dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={0.8} // Add elasticity for a more fluid drag
       onDrag={handleDrag}
       onDragEnd={handleDragEnd}
       style={{ zIndex: isCurrentCard ? 1 : 0 }}
     >
       <div
-        className="relative w-full h-full overflow-hidden rounded-t-2xl bg-white"
+        className="relative w-full h-full overflow-hidden rounded-t-2xl bg-black"
         onClick={handleImageTap}
       >
         {/* Image and Indicators */}
@@ -117,12 +125,12 @@ const SwipeableCard = ({
         </div>
 
         {/* Visual Feedback for Swiping */}
-        {dragDirection === "right" && dragging && (
+        {dragDirection === "right" && (
           <p className="absolute top-10 left-10 text-3xl font-bold text-green-500 bg-white p-2 rounded shadow-lg">
             Like
           </p>
         )}
-        {dragDirection === "left" && dragging && (
+        {dragDirection === "left" && (
           <p className="absolute top-10 right-10 text-3xl font-bold text-red-500 bg-white p-2 rounded shadow-lg">
             Nope
           </p>
@@ -154,7 +162,7 @@ const SwipeableCard = ({
       </div>
       <RatingButtons
         isCurrentCard={isCurrentCard}
-        onRateChange={onRateChange}
+        setRate={setRate}
         rate={rate}
       />
     </motion.div>

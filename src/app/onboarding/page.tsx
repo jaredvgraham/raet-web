@@ -260,7 +260,7 @@ const Onboarding = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-100 min-h-screen">
+    <div className="flex flex-col items-center justify-center bg-gray-100 h-full pb-2">
       {error && <div className="text-red-500 mb-4">{error}</div>}
       <Swiper
         onSwiper={(swiper) => (swiperRef.current = swiper)} // Capture Swiper instance

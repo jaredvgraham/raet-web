@@ -8,22 +8,28 @@ import React, { useState, useEffect, useRef } from "react";
 import { Profile } from "@/types";
 import SwipeableCard from "@/components/feed/SwipeableCard";
 import { useAuthFetch } from "@/hooks/privFetch";
-import { send } from "vite";
+
 import { sendLocation } from "@/utils/sendLocation";
 import Header from "@/components/Header";
+import Notification from "@/components/Notification";
 
-const SwipeableCardDeck: React.FC = () => {
+const SwipeableCardDeck = () => {
   const authFetch = useAuthFetch();
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
+  const [rate, setRate] = useState<number | null>(null);
   const [error, setError] = useState("");
   const [notification, setNotification] = useState({
     visible: false,
     message: "",
     type: "success",
   });
+
+  useEffect(() => {
+    console.log("profiles", profiles);
+  }, [profiles]);
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -53,6 +59,10 @@ const SwipeableCardDeck: React.FC = () => {
       const res = await authFetch("/feed");
       console.log("res", res);
 
+      if (res.feed.length === 0) {
+        return;
+      }
+
       setProfiles(res.feed);
     } catch (error) {
       console.error("Error fetching profiles:", error);
@@ -66,13 +76,29 @@ const SwipeableCardDeck: React.FC = () => {
     if (!profile) return;
 
     try {
-      await authFetch("/api/feed/swipe", {
+      const res = await authFetch("/feed", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ swipedId: profile.clerkId, direction }),
+        body: JSON.stringify({ swipedId: profile.clerkId, direction, rate }),
       });
 
-      setCurrentProfileIndex((prev) => Math.min(prev + 1, profiles.length - 1));
+      //   setCurrentProfileIndex((prev) => Math.min(prev + 1, profiles.length - 1));
+
+      if (res.message && res.message.includes("Match")) {
+        // Display a toast notification for a match
+        setNotification({
+          visible: true,
+          message: `${res.message} 🎉`,
+          type: "success",
+        });
+      }
+
+      setRate(null);
+      setProfiles((prev) => prev.slice(1));
+
+      if (profiles.length <= 2) {
+        fetchProfiles();
+      }
     } catch (error) {
       console.error("Error handling swipe:", error);
     }
@@ -86,7 +112,7 @@ const SwipeableCardDeck: React.FC = () => {
     );
   }
 
-  if (currentProfileIndex >= profiles.length) {
+  if (currentProfileIndex >= profiles.length || profiles.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
         {/* <Header /> */}
@@ -98,6 +124,13 @@ const SwipeableCardDeck: React.FC = () => {
   return (
     <div className="flex flex-col items-center h-full main-ctn  ">
       <Header />
+      {notification.visible && (
+        <Notification
+          message={notification.message}
+          type={notification.type as "success" | "error" | "info"}
+          onClose={() => setNotification({ ...notification, visible: false })}
+        />
+      )}
       {/* <Header />
       {notification.visible && (
         <Notification
@@ -117,8 +150,8 @@ const SwipeableCardDeck: React.FC = () => {
               onSwipeRight={() => handleSwipe("right")}
               onSwipeLeft={() => handleSwipe("left")}
               isCurrentCard={index === currentProfileIndex}
-              onRateChange={(rate) => console.log("rate", rate)}
-              rate={null}
+              setRate={setRate}
+              rate={rate}
             />
           );
         })}

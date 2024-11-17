@@ -2,13 +2,13 @@ import React from "react";
 
 type RatingButtonsProps = {
   rate: number | null;
-  onRateChange: (number: number) => void;
+  setRate: (rate: number) => void;
   isCurrentCard: boolean;
 };
 
 const RatingButtons = ({
   rate,
-  onRateChange,
+  setRate,
   isCurrentCard,
 }: RatingButtonsProps) => {
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -26,7 +26,7 @@ const RatingButtons = ({
               ? "bg-teal-300 text-white"
               : "bg-white text-gray-800"
           }`}
-          onClick={() => onRateChange(number)}
+          onClick={() => setRate(number)}
         >
           {number}
         </button>
