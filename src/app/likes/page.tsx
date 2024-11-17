@@ -1,0 +1,159 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { Profile } from "@/types";
+import { useAuthFetch } from "@/hooks/privFetch";
+
+import Header from "@/components/Header";
+import Notification from "@/components/Notification";
+import UserDetailScreen from "@/components/feed/UserDetails";
+
+const LikesPage = () => {
+  const [likes, setLikes] = useState<Profile[]>([]);
+  const [moreDetails, setMoreDetails] = useState<boolean>(false);
+  const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
+  const [showNotification, setShowNotification] = useState({
+    visible: false,
+    message: "",
+    type: "",
+  });
+  const authFetch = useAuthFetch();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log("fetching likes");
+      try {
+        const response = await authFetch("/user/likes", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        setLikes(response.likes || []);
+      } catch (error) {
+        console.error("Error fetching likes:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleDetailsClick = (profile: Profile) => {
+    setSelectedProfile(profile);
+    setMoreDetails(true);
+  };
+
+  const sendRight = async () => {
+    try {
+      const res = await authFetch("/feed", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          swipedId: selectedProfile?.clerkId,
+          direction: "right",
+        }),
+      });
+      const data = await res.json();
+      console.log("res", data);
+
+      if (data.message && data.message.includes("Match")) {
+        setShowNotification({
+          visible: true,
+          message: `${data.message} 🎉`,
+          type: "success",
+        });
+      }
+      setSelectedProfile(null);
+    } catch (error) {
+      console.error("Error swiping right:", error);
+    }
+  };
+
+  const sendLeft = async () => {
+    try {
+      await authFetch("/feed", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          swipedId: selectedProfile?.clerkId,
+          direction: "left",
+        }),
+      });
+      setSelectedProfile(null);
+    } catch (error) {
+      console.error("Error swiping left:", error);
+    }
+  };
+
+  return (
+    <>
+      {showNotification.visible && (
+        <Notification
+          message={showNotification.message}
+          type={showNotification.type as "success" | "error"}
+          onClose={() =>
+            setShowNotification({
+              visible: false,
+              message: "",
+              type: "",
+            })
+          }
+        />
+      )}
+
+      {moreDetails && selectedProfile ? (
+        <UserDetailScreen
+          profile={selectedProfile}
+          onClose={() => setMoreDetails(false)}
+          onSwipeLeft={() => {
+            setMoreDetails(false);
+            sendLeft();
+          }}
+          onSwipeRight={() => {
+            setMoreDetails(false);
+            sendRight();
+          }}
+        />
+      ) : (
+        <div className="flex flex-col h-screen bg-white">
+          <Header style="w-full flex items-center justify-center" />
+          <h1 className="text-lg text-center text-gray-500 mb-4">
+            These Users Like You
+          </h1>
+          <div className="flex-1 flex flex-wrap justify-between px-4">
+            {likes.length > 0 ? (
+              likes.map((like) => (
+                <div
+                  key={like._id}
+                  className="relative w-[48%] mb-4 cursor-pointer"
+                  onClick={() => handleDetailsClick(like)}
+                >
+                  <Image
+                    src={like.images[0]}
+                    alt={like.name}
+                    width={150}
+                    height={150}
+                    className="rounded-lg object-cover w-full h-48"
+                  />
+                  <p className="absolute bottom-0 left-0 right-0 bg-black text-white p-2">
+                    {like.name.split(" ")[0]}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-500">No likes yet</p>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default LikesPage;

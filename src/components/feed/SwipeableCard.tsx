@@ -5,6 +5,7 @@ import { Profile } from "@/types";
 import Dots from "@/components/Dots";
 import RatingButtons from "./RateButtons";
 import { FaArrowUp } from "react-icons/fa";
+import { set } from "mongoose";
 
 interface SwipeableCardProps {
   profile: Profile;
@@ -66,6 +67,26 @@ const SwipeableCard = ({
         transition: { type: "spring", stiffness: 80, damping: 15 },
       });
       setDragDirection(null);
+    }
+  };
+
+  const handleButtonClick = async (direction: "left" | "right") => {
+    if (direction === "right") {
+      setDragDirection("right");
+      await controls.start({
+        x: 1000,
+        opacity: 0,
+        transition: { type: "spring", stiffness: 120, damping: 12 },
+      });
+      onSwipeRight();
+    } else {
+      setDragDirection("left");
+      await controls.start({
+        x: -1000,
+        opacity: 0,
+        transition: { type: "spring", stiffness: 120, damping: 12 },
+      });
+      onSwipeLeft();
     }
   };
 
@@ -141,7 +162,7 @@ const SwipeableCard = ({
 
         {/* Like and Dislike Buttons */}
         <div className="absolute bottom-5 left-3">
-          <button onClick={onSwipeLeft}>
+          <button onClick={() => handleButtonClick("left")}>
             <Image
               src="/dislike.png"
               alt="Dislike"
@@ -152,7 +173,7 @@ const SwipeableCard = ({
           </button>
         </div>
         <div className="absolute bottom-5 right-3">
-          <button onClick={onSwipeRight}>
+          <button onClick={() => handleButtonClick("right")}>
             <Image
               src="/like.png"
               alt="Like"

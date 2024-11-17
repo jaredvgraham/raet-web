@@ -1,8 +1,5 @@
-import mongoose from "mongoose";
 import { IUser } from "../models/userModel";
-
 import User from "../models/userModel";
-
 import Like from "../models/likeModel";
 import Block from "../models/blockModel";
 import { createMatch } from "./matches";
@@ -30,7 +27,8 @@ export const getUserFeed = async (userId: string): Promise<IUser[]> => {
   // Calculate the current user's average rating
   const userAverageRating =
     user.ratings && user.ratings.length > 0
-      ? user.ratings.reduce((acc, curr) => acc + curr, 0) / user.ratings.length
+      ? user.ratings.reduce((acc: any, curr: any) => acc + curr, 0) /
+        user.ratings.length
       : 0;
 
   console.log("userAverageRating", userAverageRating);
@@ -42,6 +40,17 @@ export const getUserFeed = async (userId: string): Promise<IUser[]> => {
   const blockedIds = blockedUsers.map((block) =>
     block.userId === user.clerkId ? block.blockedUserId : block.userId
   );
+
+  user.viewedUsers = user.viewedUsers?.filter(
+    (view: { userId: string; viewedAt: Date }) => view.viewedAt > twoMonthsAgo
+  );
+
+  const viewedIds =
+    user.viewedUsers?.map(
+      (view: { userId: string; viewedAt: Date }) => view.userId
+    ) || [];
+
+  await user.save();
 
   const ratingMatch =
     userAverageRating === 0
@@ -95,16 +104,9 @@ export const getUserFeed = async (userId: string): Promise<IUser[]> => {
           { clerkId: { $nin: user.likedUsers || [] } }, // Exclude users already liked
           { clerkId: { $nin: user.matchedUsers || [] } }, // Exclude users already matched
           { clerkId: { $nin: blockedIds } }, // Exclude users who have blocked the current user
-          {
-            viewedUsers: {
-              $not: {
-                $elemMatch: {
-                  clerkId: user.clerkId,
-                  viewedAt: { $gte: twoMonthsAgo },
-                },
-              },
-            },
-          }, // Exclude users viewed in the last two months
+          { clerkId: { $nin: viewedIds } },
+
+          // Exclude users viewed in the last two months
           genderMatch, // Match gender preference
           ratingMatch, // Match rating preference
           {
@@ -194,7 +196,8 @@ export const viewUser = async (userId: string, viewedUserId: string) => {
 
   // Check if the user was already viewed, if so, update the viewedAt time
   const existingView = user.viewedUsers.find(
-    (view) => view.userId.toString() === viewedUserId
+    (view: { userId: string; viewedAt: Date }) =>
+      view.userId.toString() === viewedUserId
   );
 
   if (existingView) {
