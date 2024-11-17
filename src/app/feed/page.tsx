@@ -134,7 +134,7 @@ const SwipeableCardDeck = () => {
           onSwipeLeft={() => handleSwipe("left")}
         />
       ) : (
-        <div className="flex flex-col items-center h-[90%] main-ctn   ">
+        <div className="flex flex-col items-center h-full    ">
           <Header />
           {notification.visible && (
             <Notification
