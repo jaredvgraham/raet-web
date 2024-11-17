@@ -31,10 +31,11 @@ const SwipeableCardDeck = () => {
 
   useEffect(() => {
     console.log("profiles", profiles);
-  }, [profiles]);
+    console.log("window.scrollY", window.scrollY);
+  }, [profiles, window.scrollY]);
 
   useEffect(() => {
-    window.scrollTo(0, 1);
+    window.scrollY = 200;
     if (!navigator.geolocation) {
       return;
     }
