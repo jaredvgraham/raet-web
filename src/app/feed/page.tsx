@@ -96,7 +96,7 @@ const SwipeableCardDeck: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col items-center h-full ">
+    <div className="flex flex-col items-center h-full main-ctn  ">
       <Header />
       {/* <Header />
       {notification.visible && (
@@ -117,6 +117,8 @@ const SwipeableCardDeck: React.FC = () => {
               onSwipeRight={() => handleSwipe("right")}
               onSwipeLeft={() => handleSwipe("left")}
               isCurrentCard={index === currentProfileIndex}
+              onRateChange={(rate) => console.log("rate", rate)}
+              rate={null}
             />
           );
         })}
