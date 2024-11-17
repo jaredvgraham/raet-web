@@ -33,7 +33,7 @@ export default function RootLayout({
         >
           <ClerkLoading />
           <ClerkLoaded>
-            <div className="h-[90vh]">{children}</div>
+            <div className="h-[90vh] main-ctn">{children}</div>
             <BottomNavigation />
           </ClerkLoaded>
         </body>
