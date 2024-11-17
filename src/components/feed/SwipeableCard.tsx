@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Profile } from "@/types";
 import Dots from "@/components/Dots";
 import RatingButtons from "./RateButtons";
+import { FaArrowUp } from "react-icons/fa";
 
 interface SwipeableCardProps {
   profile: Profile;
@@ -12,6 +13,7 @@ interface SwipeableCardProps {
   isCurrentCard: boolean;
   setRate: (rate: number) => void;
   rate: number | null;
+  onPressDetails: () => void;
 }
 
 const SwipeableCard = ({
@@ -21,6 +23,7 @@ const SwipeableCard = ({
   isCurrentCard,
   setRate,
   rate,
+  onPressDetails,
 }: SwipeableCardProps) => {
   const controls = useAnimation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -157,6 +160,18 @@ const SwipeableCard = ({
               height={40}
               className="rounded-full"
             />
+          </button>
+        </div>
+        {/* View Details Button */}
+        <div className="absolute top-3 right-2 transform z-50">
+          <button
+            className="px-4 py-2 bg-gray-600 bg-opacity-40 text-white font-semibold rounded-full shadow-lg hover:bg-blue-700 transition"
+            onClick={(e) => {
+              e.stopPropagation();
+              onPressDetails();
+            }}
+          >
+            <FaArrowUp />
           </button>
         </div>
       </div>

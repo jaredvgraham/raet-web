@@ -12,6 +12,7 @@ import { useAuthFetch } from "@/hooks/privFetch";
 import { sendLocation } from "@/utils/sendLocation";
 import Header from "@/components/Header";
 import Notification from "@/components/Notification";
+import UserDetailScreen from "@/components/feed/UserDetails";
 
 const SwipeableCardDeck = () => {
   const authFetch = useAuthFetch();
@@ -26,6 +27,7 @@ const SwipeableCardDeck = () => {
     message: "",
     type: "success",
   });
+  const [moreDetails, setMoreDetails] = useState(false);
 
   useEffect(() => {
     console.log("profiles", profiles);
@@ -123,41 +125,55 @@ const SwipeableCardDeck = () => {
   }
 
   return (
-    <div className="flex flex-col items-center h-full main-ctn  ">
-      <Header />
-      {notification.visible && (
-        <Notification
-          message={notification.message}
-          type={notification.type as "success" | "error" | "info"}
-          onClose={() => setNotification({ ...notification, visible: false })}
+    <>
+      {moreDetails ? (
+        <UserDetailScreen
+          profile={profiles[currentProfileIndex]}
+          onClose={() => setMoreDetails(false)}
+          onSwipeRight={() => handleSwipe("right")}
+          onSwipeLeft={() => handleSwipe("left")}
         />
-      )}
-      {/* <Header />
-      {notification.visible && (
-        <Notification
-          message={notification.message}
-          type={notification.type}
-          onClose={() => setNotification({ ...notification, visible: false })}
-        />
-      )} */}
-      <div className="relative w-full h-4/5 ">
-        {profiles.map((profile, index) => {
-          if (index < currentProfileIndex) return null;
-
-          return (
-            <SwipeableCard
-              key={profile._id}
-              profile={profile}
-              onSwipeRight={() => handleSwipe("right")}
-              onSwipeLeft={() => handleSwipe("left")}
-              isCurrentCard={index === currentProfileIndex}
-              setRate={setRate}
-              rate={rate}
+      ) : (
+        <div className="flex flex-col items-center h-full main-ctn  ">
+          <Header />
+          {notification.visible && (
+            <Notification
+              message={notification.message}
+              type={notification.type as "success" | "error" | "info"}
+              onClose={() =>
+                setNotification({ ...notification, visible: false })
+              }
             />
-          );
-        })}
-      </div>
-    </div>
+          )}
+          {/* <Header />
+        {notification.visible && (
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            onClose={() => setNotification({ ...notification, visible: false })}
+          />
+        )} */}
+          <div className="relative w-full h-4/5 ">
+            {profiles.map((profile, index) => {
+              if (index < currentProfileIndex) return null;
+
+              return (
+                <SwipeableCard
+                  key={profile._id}
+                  profile={profile}
+                  onSwipeRight={() => handleSwipe("right")}
+                  onSwipeLeft={() => handleSwipe("left")}
+                  isCurrentCard={index === currentProfileIndex}
+                  setRate={setRate}
+                  rate={rate}
+                  onPressDetails={() => setMoreDetails(!moreDetails)}
+                />
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
