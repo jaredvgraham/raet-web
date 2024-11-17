@@ -1,3 +1,4 @@
+import { connectDB } from "@/lib/db";
 import {
   getUserFeed,
   likeUser,
@@ -10,6 +11,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
+    await connectDB();
     const { userId } = await auth();
 
     if (!userId) {
@@ -31,6 +33,7 @@ export async function POST(req: NextRequest) {
   console.log("endpoint hit");
 
   try {
+    await connectDB();
     const { userId } = await auth();
 
     if (!userId) {

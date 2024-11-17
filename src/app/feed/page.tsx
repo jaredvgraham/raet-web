@@ -25,22 +25,18 @@ const SwipeableCardDeck: React.FC = () => {
   });
 
   useEffect(() => {
-    fetchProfiles();
-  }, []);
-
-  useEffect(() => {
     if (!navigator.geolocation) {
       return;
     }
 
-    const handleSuccess = (position: GeolocationPosition) => {
+    const handleSuccess = async (position: GeolocationPosition) => {
       const { latitude, longitude } = position.coords;
       console.log("latitude", latitude);
       console.log("longitude", longitude);
 
       setLocation({ latitude, longitude });
 
-      sendLocation(latitude, longitude, authFetch);
+      await sendLocation(latitude, longitude, authFetch);
     };
 
     const handleError = (err: GeolocationPositionError) => {
@@ -48,6 +44,7 @@ const SwipeableCardDeck: React.FC = () => {
     };
 
     navigator.geolocation.getCurrentPosition(handleSuccess, handleError);
+    fetchProfiles();
   }, []);
 
   const fetchProfiles = async () => {

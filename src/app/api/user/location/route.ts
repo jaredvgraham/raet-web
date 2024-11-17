@@ -1,3 +1,4 @@
+import { connectDB } from "@/lib/db";
 import { updateUserLocation } from "@/services/user/profile";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
@@ -6,6 +7,7 @@ export async function PATCH(req: NextRequest) {
   console.log("entered updateLocation");
 
   try {
+    await connectDB();
     const { userId } = await auth();
     if (!userId) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
