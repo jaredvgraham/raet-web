@@ -31,11 +31,9 @@ const SwipeableCardDeck = () => {
 
   useEffect(() => {
     console.log("profiles", profiles);
-    console.log("window.scrollY", window.scrollY);
-  }, [profiles, window.scrollY]);
+  }, [profiles]);
 
   useEffect(() => {
-    window.scrollY = 200;
     if (!navigator.geolocation) {
       return;
     }
@@ -136,7 +134,7 @@ const SwipeableCardDeck = () => {
           onSwipeLeft={() => handleSwipe("left")}
         />
       ) : (
-        <div className="flex flex-col items-center h-full main-ctn  ">
+        <div className="flex flex-col items-center h-[90%] main-ctn   ">
           <Header />
           {notification.visible && (
             <Notification
@@ -155,7 +153,7 @@ const SwipeableCardDeck = () => {
             onClose={() => setNotification({ ...notification, visible: false })}
           />
         )} */}
-          <div className="relative w-full h-4/5 ">
+          <div className="relative w-full h-4/5  ">
             {profiles.map((profile, index) => {
               if (index < currentProfileIndex) return null;
 
