@@ -34,7 +34,9 @@ export default function RootLayout({
           <ClerkLoading />
           <ClerkLoaded>
             <div className="flex flex-col justify-between ">
-              <div className="h-[calc(100vh-60px)] ">{children}</div>
+              <div className="h-[90vh]   pb-[env(safe-area-inset-bottom)] bg-black">
+                {children}
+              </div>
               <BottomNavigation />
             </div>
           </ClerkLoaded>
