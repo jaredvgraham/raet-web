@@ -10,6 +10,7 @@ import SwipeableCard from "@/components/feed/SwipeableCard";
 import { useAuthFetch } from "@/hooks/privFetch";
 import { send } from "vite";
 import { sendLocation } from "@/utils/sendLocation";
+import Header from "@/components/Header";
 
 const SwipeableCardDeck: React.FC = () => {
   const authFetch = useAuthFetch();
@@ -37,6 +38,7 @@ const SwipeableCardDeck: React.FC = () => {
       setLocation({ latitude, longitude });
 
       await sendLocation(latitude, longitude, authFetch);
+      fetchProfiles();
     };
 
     const handleError = (err: GeolocationPositionError) => {
@@ -44,14 +46,14 @@ const SwipeableCardDeck: React.FC = () => {
     };
 
     navigator.geolocation.getCurrentPosition(handleSuccess, handleError);
-    fetchProfiles();
   }, []);
 
   const fetchProfiles = async () => {
     try {
       const res = await authFetch("/feed");
-      const data = await res.json();
-      setProfiles(data.feed);
+      console.log("res", res);
+
+      setProfiles(res.feed);
     } catch (error) {
       console.error("Error fetching profiles:", error);
     } finally {
@@ -94,7 +96,8 @@ const SwipeableCardDeck: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+    <div className="flex flex-col items-center h-full ">
+      <Header />
       {/* <Header />
       {notification.visible && (
         <Notification
@@ -103,7 +106,7 @@ const SwipeableCardDeck: React.FC = () => {
           onClose={() => setNotification({ ...notification, visible: false })}
         />
       )} */}
-      <div className="relative w-full h-4/5">
+      <div className="relative w-full h-4/5 ">
         {profiles.map((profile, index) => {
           if (index < currentProfileIndex) return null;
 

@@ -17,6 +17,6 @@ const likeSchema = new Schema<ILike>({
 // Index to ensure a user can't like the same person multiple times
 likeSchema.index({ userId: 1, likedUserId: 1 }, { unique: true });
 
-const Like = mongoose.model<ILike>("Like", likeSchema);
+const Like = mongoose.models.Like || mongoose.model<ILike>("Like", likeSchema);
 
 export default Like;

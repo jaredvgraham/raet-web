@@ -19,6 +19,8 @@ export async function GET(req: NextRequest) {
     }
 
     const feed = await getUserFeed(userId);
+    console.log("feed", feed);
+
     return NextResponse.json({ feed }, { status: 200 });
   } catch (error) {
     console.log(error);

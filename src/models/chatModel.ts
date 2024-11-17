@@ -14,6 +14,6 @@ const chatSchema = new Schema<IChat>({
   messages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
 });
 
-const Chat = mongoose.model<IChat>("Chat", chatSchema);
+const Chat = mongoose.models.Chat || mongoose.model<IChat>("Chat", chatSchema);
 
 export default Chat;
