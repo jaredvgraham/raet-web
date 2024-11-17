@@ -19,7 +19,7 @@ interface Slide {
   component: React.ReactNode;
 }
 
-const Onboarding: React.FC = () => {
+const Onboarding = () => {
   const router = useRouter();
   const authfetch = useAuthFetch();
   const swiperRef = useRef<SwiperCore | null>(null);
