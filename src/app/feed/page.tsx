@@ -83,12 +83,13 @@ const SwipeableCardDeck = () => {
       });
 
       //   setCurrentProfileIndex((prev) => Math.min(prev + 1, profiles.length - 1));
+      console.log("swipe res", res);
 
-      if (res.message && res.message.includes("Match")) {
+      if (res.message?.message && res.message.message.includes("Match")) {
         // Display a toast notification for a match
         setNotification({
           visible: true,
-          message: `${res.message} 🎉`,
+          message: `${res.message.message} 🎉`,
           type: "success",
         });
       }
