@@ -1,7 +1,8 @@
+type AuthFetch = (url: string, options: RequestInit) => Promise<Response>;
 export const sendLocation = async (
   latitude: number,
   longitude: number,
-  authFetch: Function
+  authFetch: AuthFetch
 ) => {
   try {
     const res = await authFetch("/user/location", {
