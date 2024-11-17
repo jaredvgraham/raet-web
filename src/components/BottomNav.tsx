@@ -15,7 +15,7 @@ const BottomNavigation = () => {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg flex justify-around py-3 z-50">
+    <div className=" bg-white border-t shadow-lg flex justify-around py-3 z-50">
       {navItems.map((item) => (
         <motion.button
           key={item.route}

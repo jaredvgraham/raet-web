@@ -33,8 +33,10 @@ export default function RootLayout({
         >
           <ClerkLoading />
           <ClerkLoaded>
-            <div className="h-[90vh] main-ctn">{children}</div>
-            <BottomNavigation />
+            <div className="flex flex-col justify-between ">
+              <div className="h-[90vh] main-ctn">{children}</div>
+              <BottomNavigation />
+            </div>
           </ClerkLoaded>
         </body>
       </html>
