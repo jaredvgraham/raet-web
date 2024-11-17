@@ -31,6 +31,7 @@ export async function GET(req: NextRequest) {
       likedUserId: user.clerkId,
       userId: { $nin: blockedUserIds },
     });
+    console.log("likes", likes);
 
     const likedUsersProfiles = await Promise.all(
       likes.map(async (like) => {

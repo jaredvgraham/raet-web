@@ -30,6 +30,7 @@ const LikesPage = () => {
             "Content-Type": "application/json",
           },
         });
+        console.log("response", response.likes);
 
         setLikes(response.likes || []);
       } catch (error) {
@@ -124,27 +125,30 @@ const LikesPage = () => {
         <div className="flex flex-col h-screen bg-white">
           <Header style="w-full flex items-center justify-center" />
           <h1 className="text-lg text-center text-gray-500 mb-4">
-            These Users Like You
+            These Users Like You {likes.length}
           </h1>
-          <div className="flex-1 flex flex-wrap justify-between px-4">
+          <div className="grid grid-cols-2 gap-2  ">
             {likes.length > 0 ? (
               likes.map((like) => (
-                <div
-                  key={like._id}
-                  className="relative w-[48%] mb-4 cursor-pointer"
-                  onClick={() => handleDetailsClick(like)}
-                >
-                  <Image
-                    src={like.images[0]}
-                    alt={like.name}
-                    width={150}
-                    height={150}
-                    className="rounded-lg object-cover w-full h-48"
-                  />
-                  <p className="absolute bottom-0 left-0 right-0 bg-black text-white p-2">
-                    {like.name.split(" ")[0]}
-                  </p>
-                </div>
+                <>
+                  <div
+                    key={like._id}
+                    className="relative w-full mb-4 cursor-pointer "
+                    onClick={() => handleDetailsClick(like)}
+                  >
+                    <Image
+                      src={like.images[0]}
+                      alt={like.name}
+                      width={150}
+                      height={150}
+                      className="rounded-lg object-cover w-full h-48"
+                    />
+
+                    <p className="absolute bottom-0 left-0 bg-black text-white px-2 py-1 rounded z-50">
+                      {like.name.split(" ")[0]}
+                    </p>
+                  </div>
+                </>
               ))
             ) : (
               <p className="text-center text-gray-500">No likes yet</p>
