@@ -34,6 +34,13 @@ const SwipeableCardDeck = () => {
   }, [profiles]);
 
   useEffect(() => {
+    const enterFullscreen = () => {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      }
+    };
+
+    enterFullscreen();
     if (!navigator.geolocation) {
       return;
     }
