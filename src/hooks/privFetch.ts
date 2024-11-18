@@ -2,7 +2,6 @@ import { useSession } from "@clerk/nextjs";
 
 export const useAuthFetch = () => {
   const { session } = useSession();
-  console.log("session", session);
 
   const authFetch = async (endpoint: string, options: RequestInit = {}) => {
     try {

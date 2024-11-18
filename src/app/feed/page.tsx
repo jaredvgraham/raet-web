@@ -157,7 +157,6 @@ const SwipeableCardDeck = () => {
                   setNotification({ ...notification, visible: false })
                 }
               />
-              <p>notification is vis</p>
             </>
           )}
           {/* <Header />

@@ -35,7 +35,7 @@ const Notification = ({
 
   return (
     <div
-      className={`h-32 fixed top-5 left-1/2 transform -translate-x-1/2 z-50 shadow-lg rounded-md text-white p-4 px-6 ${getBackgroundColor()}`}
+      className={` fixed top-5 left-1/2 transform -translate-x-1/2 z-50 shadow-lg rounded-md text-white p-4 px-6 ${getBackgroundColor()}`}
     >
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium">{message}</span>

@@ -96,7 +96,7 @@ const SwipeableCard = ({
         })
         .then(() => {
           setDragDirection(null);
-          setCurrentProfileIndex(index + 1);
+          //   setCurrentProfileIndex(index + 1);
           onSwipeRight();
         });
     } else {
@@ -109,7 +109,7 @@ const SwipeableCard = ({
         })
         .then(() => {
           setDragDirection(null);
-          setCurrentProfileIndex(index + 1);
+          //   setCurrentProfileIndex(index + 1);
           onSwipeLeft();
         });
     }

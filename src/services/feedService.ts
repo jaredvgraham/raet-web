@@ -132,7 +132,7 @@ export const getUserFeed = async (userId: string): Promise<IUser[]> => {
       },
     },
     {
-      $limit: 3,
+      $limit: 10,
     },
   ]);
 

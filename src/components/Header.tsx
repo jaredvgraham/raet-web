@@ -1,6 +1,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { FaArrowLeft } from "react-icons/fa";
 
 type HeaderProps = {
   backArrow?: boolean;
@@ -35,15 +36,12 @@ const Header: React.FC<HeaderProps> = ({
       {/* Back Arrow */}
       {backArrow && (
         <button onClick={handleBackPress} className="w-10 flex justify-center">
-          <i
-            className="fas fa-angle-left text-4xl text-black transform scale-x-75"
-            aria-label="Back"
-          />
+          <FaArrowLeft />
         </button>
       )}
 
       {/* Logo */}
-      <div className="flex-grow flex justify-center">
+      <div className="flex-grow flex justify-center ">
         <Image
           src="/r-logo.png" // Update this path to your logo
           alt="Logo"
@@ -55,12 +53,11 @@ const Header: React.FC<HeaderProps> = ({
       {/* Profile Image */}
       {image && (
         <button onClick={imageOnPress}>
-          <div className="w-10 h-10 overflow-hidden rounded-full">
+          <div className="relative w-10 h-10 overflow-hidden bg-black rounded-full">
             <Image
               src={image}
               alt="User Profile"
-              width={40}
-              height={40}
+              fill
               className="object-cover"
             />
           </div>
