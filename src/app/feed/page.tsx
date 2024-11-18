@@ -130,7 +130,7 @@ const SwipeableCardDeck = () => {
   if (currentProfileIndex >= profiles.length || profiles.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
-        <Header />
+        <Header style="p-8 w-[100vw]" />
         <p>No more profiles left.</p>
       </div>
     );

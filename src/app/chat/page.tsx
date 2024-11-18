@@ -147,8 +147,8 @@ const Chat = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <Header />
+      <div className="flex flex-col items-center justify-center h-screen">
+        <Header style="w-full" />
         <p className="text-center text-2xl text-gray-500">Loading...</p>
       </div>
     );

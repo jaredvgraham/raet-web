@@ -1,7 +1,12 @@
 import React from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
-import { FaArrowLeft } from "react-icons/fa";
+import {
+  FaAngleDoubleDown,
+  FaAngleDoubleUp,
+  FaArrowLeft,
+} from "react-icons/fa";
+import { useShowNav } from "@/hooks/showNav";
 
 type HeaderProps = {
   backArrow?: boolean;
@@ -20,6 +25,10 @@ const Header: React.FC<HeaderProps> = ({
   imageOnPress,
 }) => {
   const router = useRouter();
+  const { showNav, setShowNav } = useShowNav();
+  const pathname = usePathname();
+  const isChatPage =
+    pathname.startsWith("/chat/") && pathname.split("/").length === 3;
 
   const handleBackPress = () => {
     if (backDestination) {
@@ -31,12 +40,22 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <div
-      className={`flex  flex-row items-center justify-between px-3 h-14 ${style}`}
+      className={`flex relative flex-row items-center justify-between px-3 h-14 ${style}`}
     >
       {/* Back Arrow */}
       {backArrow && (
-        <button onClick={handleBackPress} className="w-10 flex justify-center">
+        <button onClick={handleBackPress} className="w-10  flex justify-center">
           <FaArrowLeft />
+        </button>
+      )}
+      {/* show nav button */}
+      {!isChatPage && (
+        <button
+          onClick={() => setShowNav(!showNav)}
+          className="absolute left-0 top-5 w-10 flex justify-center"
+        >
+          {!showNav && <FaAngleDoubleUp />}
+          {showNav && <FaAngleDoubleDown />}
         </button>
       )}
 

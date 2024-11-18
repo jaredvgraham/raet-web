@@ -18,6 +18,7 @@ const LikesPage = () => {
     message: "",
     type: "",
   });
+  const [loading, setLoading] = useState(true);
   const authFetch = useAuthFetch();
 
   useEffect(() => {
@@ -35,6 +36,8 @@ const LikesPage = () => {
         setLikes(response.likes || []);
       } catch (error) {
         console.error("Error fetching likes:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -91,6 +94,14 @@ const LikesPage = () => {
       console.error("Error swiping left:", error);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="text-center h-full w-full flex items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <>

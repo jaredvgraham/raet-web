@@ -2,9 +2,11 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { useShowNav } from "@/hooks/showNav";
 
 const BottomNavigation = () => {
   const router = useRouter();
+  const { showNav } = useShowNav();
 
   // Define navigation items
   const navItems = [
@@ -15,7 +17,11 @@ const BottomNavigation = () => {
   ];
 
   return (
-    <div className="  bg-white border-t shadow-lg flex justify-around py-3 z-50">
+    <div
+      className={`${
+        showNav && "fixed bottom-0 left-0 right-0"
+      }  bg-white border-t shadow-lg flex justify-around py-3 z-50`}
+    >
       {navItems.map((item) => (
         <motion.button
           key={item.route}
