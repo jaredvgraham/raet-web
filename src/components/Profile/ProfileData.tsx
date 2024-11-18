@@ -21,6 +21,7 @@ import Image from "next/image";
 import { getCityFromLocation } from "@/utils";
 import Header from "../Header";
 import EditProfileScreen from "./EditProfileScreen";
+import { SignOutButton } from "@clerk/nextjs";
 
 type ProfileDataProps = {
   profile: Profile;
@@ -216,6 +217,11 @@ const ProfileData = ({ profile, setPreview }: ProfileDataProps) => {
                   Edit Profile
                 </p>
               </button>
+              <SignOutButton>
+                <p className="text-red-400 text-lg text-center font-bold">
+                  Sign Out
+                </p>
+              </SignOutButton>
               {/* <DeleteAccount userId={profile.clerkId} /> */}
             </div>
           </>

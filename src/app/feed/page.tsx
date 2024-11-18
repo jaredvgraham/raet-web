@@ -147,7 +147,7 @@ const SwipeableCardDeck = () => {
         />
       ) : (
         <div className="flex flex-col items-center h-full overflow-x-hidden    ">
-          <Header />
+          <Header style="w-full" />
           {notification.visible && (
             <>
               <Notification
