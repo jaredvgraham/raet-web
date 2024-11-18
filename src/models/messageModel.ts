@@ -1,6 +1,6 @@
 //message model
 
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, models, Schema } from "mongoose";
 import { IUser } from "./userModel"; // Assuming you have a User model defined
 
 export interface IMessage extends Document {
@@ -19,6 +19,7 @@ const messageSchema = new Schema<IMessage>({
   sentAt: { type: Date, default: Date.now },
 });
 
-const Message = mongoose.model<IMessage>("Message", messageSchema);
+const Message =
+  mongoose.models.Message || mongoose.model<IMessage>("Message", messageSchema);
 
 export default Message;

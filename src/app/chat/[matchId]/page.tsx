@@ -10,10 +10,12 @@ import Image from "next/image";
 import Icon from "react-icons/fa";
 import UserDetailScreen from "@/components/feed/UserDetails";
 import { db } from "@/lib/frontendFirebase";
+import { useAuth, useSession, useUser } from "@clerk/nextjs";
 
 const ChatScreen = () => {
   const router = useRouter();
   const { matchId } = useParams();
+  const { userId } = useAuth();
   const authFetch = useAuthFetch();
 
   const [match, setMatch] = useState(null);
@@ -100,6 +102,7 @@ const ChatScreen = () => {
 
   useEffect(() => {
     console.log("scrolling to bottom");
+    console.log("messages", messages);
 
     scrollToBottom();
   }, [messages]);
@@ -138,24 +141,26 @@ const ChatScreen = () => {
           <div
             key={index}
             className={`flex ${
-              msg.senderId === matchId ? "justify-start" : "justify-end"
+              msg.senderId !== userId ? "justify-start" : "justify-end"
             } mb-4`}
           >
-            {msg.senderId === matchId && (
-              <Image
-                src={match.images[0]}
-                alt={match.name}
-                width={40}
-                height={40}
-                className="rounded-full mr-2"
-              />
+            {msg.senderId !== userId && (
+              <div className="relative w-10 h-10 overflow-hidden rounded-full mr-1 self-end">
+                <Image
+                  src={match?.images?.[0]} // Fallback if no image
+                  alt={match?.name || "User Image"}
+                  width={40} // These ensure consistent dimensions
+                  height={40}
+                  className="object-cover w-full h-full"
+                />
+              </div>
             )}
             <div
-              className={`p-3 rounded-xl ${
-                msg.senderId === matchId ? "bg-gray-200" : "bg-blue-100"
+              className={`p-3 rounded-xl max-w-[80%]  ${
+                msg.senderId !== userId ? "bg-gray-200" : "bg-blue-100"
               }`}
             >
-              <p className="text-lg">{msg.message}</p>
+              <p className="text-lg break-words  ">{msg.message}</p>
             </div>
           </div>
         ))}

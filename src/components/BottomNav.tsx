@@ -8,9 +8,9 @@ const BottomNavigation = () => {
 
   // Define navigation items
   const navItems = [
-    { label: "Home", icon: "/icons/home.svg", route: "/" },
-    { label: "Search", icon: "/icons/search.svg", route: "/search" },
-    { label: "Matches", icon: "/icons/matches.svg", route: "/matches" },
+    { label: "Home", icon: "/icons/home.svg", route: "/feed" },
+    { label: "Search", icon: "/icons/search.svg", route: "/likes" },
+    { label: "Matches", icon: "/icons/matches.svg", route: "/chat" },
     { label: "Profile", icon: "/icons/profile.svg", route: "/profile" },
   ];
 

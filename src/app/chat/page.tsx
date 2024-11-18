@@ -109,7 +109,7 @@ const Chat = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col h-full overflow-y-auto">
       <div className="pb-24">
         <Header />
         <div className="p-4 border-b border-gray-300">
@@ -180,16 +180,21 @@ const Chat = () => {
                     }`}
                     key={conversation.matchId}
                   >
-                    <Image
-                      src={conversation?.matchedUser?.images[0]}
-                      alt={conversation?.matchedUser?.name}
-                      width={64}
-                      height={64}
-                      className="rounded-full mr-4"
-                    />
-                    <div>
+                    <div className="w-16 h-16 overflow-hidden rounded-full mr-2">
+                      <Image
+                        src={
+                          conversation?.matchedUser?.images[0] || "/like.png"
+                        }
+                        alt={conversation?.matchedUser?.name}
+                        width={64}
+                        height={64}
+                        className="object-cover w-full h-full "
+                      />
+                    </div>
+
+                    <div className="max-w-[100vw]">
                       <h3
-                        className={`font-bold ${
+                        className={`font-bold text-left ${
                           notRead ? "text-black" : "text-gray-700"
                         }`}
                       >
@@ -208,7 +213,7 @@ const Chat = () => {
                         {!sentByMe && notRead && (
                           <FaBell className="text-teal-500" />
                         )}
-                        <p className="text-sm text-gray-600 truncate">
+                        <p className="text-sm text-gray-600 truncate break-words max-w-[70%]">
                           {conversation?.lastMessage?.message}
                         </p>
                       </div>
