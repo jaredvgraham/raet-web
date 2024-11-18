@@ -1,3 +1,4 @@
+import { connectDB } from "@/lib/db";
 import Block from "@/models/blockModel";
 import Match from "@/models/matchModel";
 import User from "@/models/userModel";
@@ -9,6 +10,7 @@ export async function GET(req: NextRequest) {
 
   const { userId } = await auth();
   try {
+    await connectDB();
     // Find matches related to the user
 
     const blockList = await Block.find({

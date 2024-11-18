@@ -1,3 +1,4 @@
+import { connectDB } from "@/lib/db";
 import Match from "@/models/matchModel";
 import User from "@/models/userModel";
 import { calculateAge } from "@/utils/calculateAge";
@@ -7,6 +8,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
+    await connectDB();
     const { userId } = await auth();
     const { matchId } = await req.json();
 
