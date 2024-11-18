@@ -7,11 +7,13 @@ import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const { userId } = await auth();
-  console.log("getLastMsgAndMatch");
-  await connectDB().then(() => console.log("connected to db"));
-
   try {
+    const { userId } = await auth();
+    console.log("getLastMsgAndMatch");
+    await connectDB().then(() => console.log("connected to db"));
+    if (!userId) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
     const blockList = await Block.find({
       $or: [{ userId: userId }, { blockedUserId: userId }],
     });
