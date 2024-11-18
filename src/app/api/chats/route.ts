@@ -9,9 +9,9 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const { userId } = await auth();
   console.log("getLastMsgAndMatch");
+  await connectDB();
 
   try {
-    await connectDB();
     const blockList = await Block.find({
       $or: [{ userId: userId }, { blockedUserId: userId }],
     });

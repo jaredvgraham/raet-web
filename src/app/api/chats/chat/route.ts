@@ -14,13 +14,13 @@ import { connectDB } from "@/lib/db";
 export async function GET(req: NextRequest) {
   const { matchId } = await req.json();
   const { userId } = await auth();
+  await connectDB();
 
   if (!userId) {
     return { json: { message: "User not found" }, status: 404 };
   }
 
   try {
-    await connectDB();
     // Fetch the match data to find the other user's Clerk ID
     const match = await Match.findById(matchId);
     if (!match) {
@@ -62,6 +62,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const { matchId, messageText } = await req.json();
   const { userId } = await auth();
+  await connectDB();
 
   if (!userId) {
     return NextResponse.json({ message: "User not found" }, { status: 404 });
@@ -70,7 +71,6 @@ export async function POST(req: NextRequest) {
   console.log("at sendMessage", req.body);
 
   try {
-    await connectDB();
     const match = await Match.findById(matchId);
     if (!match) {
       return NextResponse.json({ message: "Match not found" }, { status: 404 });
@@ -152,9 +152,9 @@ export async function PATCH(req: NextRequest) {
   const { messageId, matchId } = await req.json();
   const { userId } = await auth();
   // Assuming matchId is passed in the request body
+  await connectDB();
 
   try {
-    await connectDB();
     // Fetch the message from Firebase
     const messageRef = db.ref(`chats/${matchId}/${messageId}`);
     const messageSnapshot = await messageRef.once("value");
