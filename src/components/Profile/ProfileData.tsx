@@ -42,7 +42,7 @@ const ProfileData = ({ profile, setPreview }: ProfileDataProps) => {
       );
 
       if (cityName) {
-        setCity(cityName.city || "Unknown Location");
+        setCity(cityName || "Unknown Location");
       }
     };
 
