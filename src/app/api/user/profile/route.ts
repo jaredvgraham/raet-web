@@ -67,6 +67,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
+    await connectDB();
     const { userId } = await auth();
     if (!userId) {
       return NextResponse.json(
@@ -107,6 +108,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
 export async function PATCH(req: NextRequest) {
   try {
+    await connectDB();
     const { userId } = await auth();
     if (!userId) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
