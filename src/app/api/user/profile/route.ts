@@ -88,7 +88,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     const age = calculateAge(profile.dob);
 
     const updatedProfile = {
-      ...profile,
+      ...profile.toObject(),
       age,
     };
 

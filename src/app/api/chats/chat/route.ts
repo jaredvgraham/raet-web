@@ -155,6 +155,8 @@ export async function PATCH(req: NextRequest) {
   await connectDB();
 
   try {
+    console.log("marking message as read", req.body);
+
     // Fetch the message from Firebase
     const messageRef = db.ref(`chats/${matchId}/${messageId}`);
     const messageSnapshot = await messageRef.once("value");

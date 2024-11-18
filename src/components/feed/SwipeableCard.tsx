@@ -18,6 +18,8 @@ interface SwipeableCardProps {
   index: number;
   setProfiles: (profiles: Profile[]) => void;
   setCurrentProfileIndex: (index: number) => void;
+  preview?: boolean;
+  setPreview?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SwipeableCard = ({
@@ -30,6 +32,8 @@ const SwipeableCard = ({
   onPressDetails,
   index,
   setCurrentProfileIndex,
+  preview,
+  setPreview,
 }: SwipeableCardProps) => {
   const controls = useAnimation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -146,6 +150,15 @@ const SwipeableCard = ({
       >
         {/* Image and Indicators */}
         <div className="relative w-full h-full">
+          {preview && setPreview && (
+            <button
+              className="absolute top-3 left-3 z-30 bg-black p-2 rounded-full"
+              onClick={() => setPreview(false)}
+            >
+              <p className="text-lg text-gray-200">Done</p>
+            </button>
+          )}
+
           <Image
             src={profile.images[currentImageIndex]}
             alt={profile.name}

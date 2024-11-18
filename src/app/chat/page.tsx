@@ -11,6 +11,7 @@ import Header from "@/components/Header";
 import { db } from "@/lib/frontendFirebase";
 import { useAuthFetch } from "@/hooks/privFetch";
 import { FaBell, FaCheck } from "react-icons/fa";
+import { Message } from "@/types";
 
 interface Match {
   matchId: string;
@@ -47,6 +48,7 @@ const Chat = () => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [noMatches, setNoMatches] = useState(true);
   const [noConversations, setNoConversations] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const fetchMatches = async () => {
     try {
@@ -115,13 +117,42 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    fetchMatches();
-    fetchConversations();
+    const fetchData = async () => {
+      setLoading(true); // Set loading to true before fetching starts
+      await Promise.all([fetchMatches(), fetchConversations()]);
+      setLoading(false); // Set loading to false after both fetches finish
+    };
+
+    fetchData();
   }, []);
 
-  const handleConvoClick = (matchId: string) => {
+  const handleConvoClick = async (
+    matchId: string,
+    notRead: boolean,
+    message: any
+  ) => {
+    console.log("notRead", notRead);
+    console.log("message", message);
+
     router.push(`/chat/${matchId}`);
+
+    if (notRead && message) {
+      await authFetch("/chats/chat", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ matchId, messageId: message.id }),
+      });
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Header />
+        <p className="text-center text-2xl text-gray-500">Loading...</p>
+      </div>
+    );
+  }
 
   if (noMatches && noConversations) {
     return (
@@ -148,7 +179,7 @@ const Chat = () => {
             </p>
           ) : (
             <div className="flex gap-4 overflow-x-auto pb-4">
-              <div className="w-28 h-32 px-3 bg-black border border-gray-300 mb-6 rounded-2xl text-white flex flex-col items-center justify-center">
+              <div className="min-w-28 h-32  bg-black border border-gray-300 mb-6 rounded-2xl text-white flex flex-col items-center justify-center">
                 <p className="text-center text-3xl text-teal-300">
                   {matches.length}
                 </p>
@@ -157,7 +188,7 @@ const Chat = () => {
               {matches.map((match) => (
                 <div key={match.matchId} className="flex-shrink-0">
                   <button
-                    onClick={() => handleConvoClick(match.matchId)}
+                    onClick={() => handleConvoClick(match.matchId, false, null)}
                     className="block"
                   >
                     <div className="relative w-28 h-32 bg-gray-300 rounded-full flex items-center justify-center">
@@ -190,9 +221,8 @@ const Chat = () => {
           ) : (
             <div>
               {conversations.map((conversation) => {
-                const notRead =
-                  conversation.lastMessage &&
-                  conversation.lastMessage.senderId &&
+                const notRead: boolean =
+                  !!conversation.lastMessage &&
                   conversation.lastMessage.senderId !== user?.id &&
                   !conversation.lastMessage.receiverViewed;
 
@@ -200,7 +230,13 @@ const Chat = () => {
 
                 return (
                   <button
-                    onClick={() => handleConvoClick(conversation.matchId)}
+                    onClick={() =>
+                      handleConvoClick(
+                        conversation.matchId,
+                        notRead,
+                        conversation.lastMessage
+                      )
+                    }
                     className={`flex items-center w-full border-b border-gray-300 py-4 px-4 ${
                       notRead ? "bg-gray-100" : ""
                     }`}
@@ -229,15 +265,19 @@ const Chat = () => {
                       <div className="flex items-center space-x-2">
                         {sentByMe && (
                           <FaCheck
-                            className={`text-gray-500 ${
+                            className={`text-gray-400 ${
                               conversation.lastMessage?.receiverViewed
                                 ? "text-black"
                                 : ""
                             }`}
                           />
                         )}
-                        {!sentByMe && notRead && (
-                          <FaBell className="text-teal-500" />
+                        {!sentByMe && (
+                          <FaBell
+                            className={`${
+                              notRead ? "text-teal-500" : "text-gray-400"
+                            }`}
+                          />
                         )}
                         <p className="text-sm text-gray-600 truncate break-words max-w-[70%]">
                           {conversation?.lastMessage?.message}
