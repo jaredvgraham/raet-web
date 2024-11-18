@@ -34,6 +34,8 @@ const Onboarding = () => {
   const [uploadedFiles, setUploadedFiles] = useState<File[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   // Predefined interests
   const predefinedInterests: string[] = [
     "Sports",
@@ -130,7 +132,11 @@ const Onboarding = () => {
             <button
               key={option}
               className={`p-4 rounded-lg w-1/3 ${
-                gender === option ? "bg-blue-600 text-white" : "bg-gray-300"
+                gender === option
+                  ? option === "Male"
+                    ? "bg-blue-400 text-white"
+                    : "bg-pink-500 text-white"
+                  : "bg-gray-300"
               }`}
               onClick={() => setGender(option)}
             >
@@ -149,7 +155,11 @@ const Onboarding = () => {
               key={option}
               className={`p-4 rounded-lg w-1/4 ${
                 preferredGender === option
-                  ? "bg-blue-600 text-white"
+                  ? option === "Male"
+                    ? "bg-blue-400 text-white"
+                    : option === "Female"
+                    ? "bg-pink-500 text-white"
+                    : "bg-purple-300 text-white"
                   : "bg-gray-300"
               }`}
               onClick={() => setPreferredGender(option)}
@@ -214,7 +224,8 @@ const Onboarding = () => {
           <input
             type="file"
             multiple
-            className="w-full p-2 border rounded cursor-pointer"
+            ref={fileInputRef}
+            style={{ display: "none" }}
             onChange={(e) => {
               const files = e.target.files;
               if (files) {
@@ -225,22 +236,41 @@ const Onboarding = () => {
               }
             }}
           />
+          <button
+            className="p-4 bg-teal-400 text-white rounded"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            Upload Images
+          </button>
+
           <p className="text-gray-600 text-center">
             Add your favorite pictures to showcase yourself!
           </p>
           {uploadedFiles && (
             <div className="grid grid-cols-2 gap-2">
-              {Array.from(uploadedFiles).map((file, index) => (
+              {uploadedFiles?.map((file, index) => (
                 <div
-                  className="w-44 h-44 relative rounded overflow-hidden"
+                  className="w-44 h-44 relative rounded overflow-hidden bg-black"
                   key={index}
                 >
+                  {/* Delete button */}
+                  <button
+                    className="absolute top-1 right-1 p-2 bg-black text-white rounded-full z-10"
+                    onClick={() =>
+                      setUploadedFiles((prev) =>
+                        prev ? prev.filter((_, i) => i !== index) : []
+                      )
+                    }
+                  >
+                    X
+                  </button>
+
+                  {/* Image preview */}
                   <Image
-                    key={file.name}
-                    alt="Uploaded Image"
+                    alt={`Uploaded Image ${index + 1}`}
                     src={URL.createObjectURL(file)}
                     fill
-                    className="object-contain"
+                    className="object-cover w-full h-full"
                   />
                 </div>
               ))}
@@ -260,7 +290,7 @@ const Onboarding = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-100 h-full pb-2">
+    <div className="flex flex-col items-center justify-center  h-full pb-2">
       {error && <div className="text-red-500 mb-4">{error}</div>}
       <Swiper
         onSwiper={(swiper) => (swiperRef.current = swiper)} // Capture Swiper instance
