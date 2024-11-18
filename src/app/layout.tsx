@@ -3,7 +3,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ClerkLoaded, ClerkLoading, ClerkProvider } from "@clerk/nextjs";
 import BottomNavigation from "@/components/BottomNav";
-import ClientWrapper from "@/components/ClientWrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,14 +33,10 @@ export default function RootLayout({
         >
           <ClerkLoading />
           <ClerkLoaded>
-            <ClientWrapper>
-              <div className="flex flex-col justify-between ">
-                <div className="h-[90vh]   pb-[env(safe-area-inset-bottom)] bg-black">
-                  {children}
-                </div>
-                <BottomNavigation />
-              </div>
-            </ClientWrapper>
+            <div className="flex flex-col justify-between ">
+              <div className="h-[90vh] ">{children}</div>
+              <BottomNavigation />
+            </div>
           </ClerkLoaded>
         </body>
       </html>
