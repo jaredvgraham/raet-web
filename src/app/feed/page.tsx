@@ -13,6 +13,7 @@ import { sendLocation } from "@/utils/sendLocation";
 import Header from "@/components/Header";
 import Notification from "@/components/Notification";
 import UserDetailScreen from "@/components/feed/UserDetails";
+import { set } from "mongoose";
 
 const SwipeableCardDeck = () => {
   const authFetch = useAuthFetch();
@@ -65,7 +66,13 @@ const SwipeableCardDeck = () => {
         return;
       }
 
-      setProfiles(res.feed);
+      setProfiles((prevProfiles) => {
+        const existingProfiles = prevProfiles.map((profile) => profile.clerkId);
+        const newProfiles = res.feed.filter(
+          (profile: Profile) => !existingProfiles.includes(profile.clerkId)
+        );
+        return [...prevProfiles, ...newProfiles];
+      });
     } catch (error) {
       console.error("Error fetching profiles:", error);
     } finally {
@@ -76,6 +83,7 @@ const SwipeableCardDeck = () => {
   const handleSwipe = async (direction: string) => {
     const profile = profiles[currentProfileIndex];
     if (!profile) return;
+    console.log("sending swipe for profile", profile);
 
     try {
       const res = await authFetch("/feed", {
@@ -88,6 +96,8 @@ const SwipeableCardDeck = () => {
       console.log("swipe res", res);
 
       if (res.message?.message && res.message.message.includes("Match")) {
+        console.log("setting notification");
+
         // Display a toast notification for a match
         setNotification({
           visible: true,
@@ -100,6 +110,8 @@ const SwipeableCardDeck = () => {
       setProfiles((prev) => prev.slice(1));
 
       if (profiles.length <= 2) {
+        console.log("fetching more profiles");
+
         fetchProfiles();
       }
     } catch (error) {
@@ -134,16 +146,19 @@ const SwipeableCardDeck = () => {
           onSwipeLeft={() => handleSwipe("left")}
         />
       ) : (
-        <div className="flex flex-col items-center h-full    ">
+        <div className="flex flex-col items-center h-full overflow-x-hidden    ">
           <Header />
           {notification.visible && (
-            <Notification
-              message={notification.message}
-              type={notification.type as "success" | "error" | "info"}
-              onClose={() =>
-                setNotification({ ...notification, visible: false })
-              }
-            />
+            <>
+              <Notification
+                message={notification.message}
+                type={notification.type as "success" | "error" | "info"}
+                onClose={() =>
+                  setNotification({ ...notification, visible: false })
+                }
+              />
+              <p>notification is vis</p>
+            </>
           )}
           {/* <Header />
         {notification.visible && (
@@ -155,11 +170,13 @@ const SwipeableCardDeck = () => {
         )} */}
           <div className="relative w-full h-4/5  ">
             {profiles.map((profile, index) => {
-              if (index < currentProfileIndex) return null;
-
+              if (index < currentProfileIndex - 1) {
+                return null;
+              }
               return (
                 <SwipeableCard
                   key={profile._id}
+                  index={index}
                   profile={profile}
                   onSwipeRight={() => handleSwipe("right")}
                   onSwipeLeft={() => handleSwipe("left")}
@@ -167,6 +184,8 @@ const SwipeableCardDeck = () => {
                   setRate={setRate}
                   rate={rate}
                   onPressDetails={() => setMoreDetails(!moreDetails)}
+                  setProfiles={setProfiles}
+                  setCurrentProfileIndex={setCurrentProfileIndex}
                 />
               );
             })}

@@ -15,6 +15,9 @@ interface SwipeableCardProps {
   setRate: (rate: number) => void;
   rate: number | null;
   onPressDetails: () => void;
+  index: number;
+  setProfiles: (profiles: Profile[]) => void;
+  setCurrentProfileIndex: (index: number) => void;
 }
 
 const SwipeableCard = ({
@@ -25,6 +28,8 @@ const SwipeableCard = ({
   setRate,
   rate,
   onPressDetails,
+  index,
+  setCurrentProfileIndex,
 }: SwipeableCardProps) => {
   const controls = useAnimation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -47,19 +52,29 @@ const SwipeableCard = ({
     info: { offset: { x: number } }
   ) => {
     if (info.offset.x > swipeThreshold) {
-      await controls.start({
-        x: 1000,
-        opacity: 0,
-        transition: { type: "spring", stiffness: 120, damping: 12 },
-      });
-      onSwipeRight();
+      await controls
+        .start({
+          x: 1000,
+          opacity: 0,
+          transition: { type: "spring", stiffness: 120, damping: 12 },
+        })
+        .then(() => {
+          setDragDirection(null);
+          //   setCurrentProfileIndex(index + 1);
+          onSwipeRight();
+        });
     } else if (info.offset.x < -swipeThreshold) {
-      await controls.start({
-        x: -1000,
-        opacity: 0,
-        transition: { type: "spring", stiffness: 120, damping: 12 },
-      });
-      onSwipeLeft();
+      await controls
+        .start({
+          x: -1000,
+          opacity: 0,
+          transition: { type: "spring", stiffness: 120, damping: 12 },
+        })
+        .then(() => {
+          setDragDirection(null);
+          //   setCurrentProfileIndex(index + 1);
+          onSwipeLeft();
+        });
     } else {
       await controls.start({
         x: 0,
@@ -73,20 +88,30 @@ const SwipeableCard = ({
   const handleButtonClick = async (direction: "left" | "right") => {
     if (direction === "right") {
       setDragDirection("right");
-      await controls.start({
-        x: 1000,
-        opacity: 0,
-        transition: { type: "spring", stiffness: 120, damping: 12 },
-      });
-      onSwipeRight();
+      await controls
+        .start({
+          x: 1000,
+          opacity: 0,
+          transition: { type: "spring", stiffness: 120, damping: 12 },
+        })
+        .then(() => {
+          setDragDirection(null);
+          setCurrentProfileIndex(index + 1);
+          onSwipeRight();
+        });
     } else {
       setDragDirection("left");
-      await controls.start({
-        x: -1000,
-        opacity: 0,
-        transition: { type: "spring", stiffness: 120, damping: 12 },
-      });
-      onSwipeLeft();
+      await controls
+        .start({
+          x: -1000,
+          opacity: 0,
+          transition: { type: "spring", stiffness: 120, damping: 12 },
+        })
+        .then(() => {
+          setDragDirection(null);
+          setCurrentProfileIndex(index + 1);
+          onSwipeLeft();
+        });
     }
   };
 
@@ -113,7 +138,7 @@ const SwipeableCard = ({
       dragElastic={0.8} // Add elasticity for a more fluid drag
       onDrag={handleDrag}
       onDragEnd={handleDragEnd}
-      style={{ zIndex: isCurrentCard ? 1 : 0 }}
+      style={{ zIndex: isCurrentCard ? 2 : -index }}
     >
       <div
         className="relative w-full h-full overflow-hidden rounded-t-2xl bg-black"
