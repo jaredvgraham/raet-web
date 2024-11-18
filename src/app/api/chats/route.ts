@@ -9,7 +9,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const { userId } = await auth();
   console.log("getLastMsgAndMatch");
-  await connectDB();
+  await connectDB().then(() => console.log("connected to db"));
 
   try {
     const blockList = await Block.find({
