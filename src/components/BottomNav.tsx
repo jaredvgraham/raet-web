@@ -15,15 +15,13 @@ const BottomNavigation = () => {
   ];
 
   return (
-    <div className=" bottom-0 left-0 right-0 bg-white border-t shadow-lg flex justify-around py-3 z-50">
+    <div className="  bg-white border-t shadow-lg flex justify-around py-3 z-50">
       {navItems.map((item) => (
         <motion.button
           key={item.route}
           whileTap={{ scale: 0.9 }}
           onClick={() => router.push(item.route)}
-          className={`flex flex-col items-center ${
-            router.pathname === item.route ? "text-blue-500" : "text-gray-400"
-          }`}
+          className={`flex flex-col items-center `}
         >
           <img
             src={item.icon}

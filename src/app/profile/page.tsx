@@ -87,7 +87,7 @@ const ProfilePage = () => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col h-full bg-gray-100">
+        <div className="flex flex-col h-full overflow-auto bg-gray-100">
           <ProfileData profile={profile} setPreview={setPreview} />
         </div>
       )}
