@@ -1,3 +1,4 @@
+import { connectDB } from "@/lib/db";
 import Block from "@/models/blockModel";
 import Chat from "@/models/chatModel";
 import Match from "@/models/matchModel";
@@ -10,6 +11,7 @@ export async function GET(req: NextRequest) {
   console.log("getLastMsgAndMatch");
 
   try {
+    await connectDB();
     const blockList = await Block.find({
       $or: [{ userId: userId }, { blockedUserId: userId }],
     });
