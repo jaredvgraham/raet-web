@@ -12,13 +12,39 @@ import { db } from "@/lib/frontendFirebase";
 import { useAuthFetch } from "@/hooks/privFetch";
 import { FaBell, FaCheck } from "react-icons/fa";
 
+interface Match {
+  matchId: string;
+  profile: {
+    images: string[];
+    name: string;
+  };
+}
+
+interface LastMessage {
+  id: string;
+  senderId: string;
+  receiverId: string;
+  message: string;
+  receiverViewed: boolean;
+  sentAt: number;
+}
+
+interface Conversation {
+  matchId: string;
+  matchedUser: {
+    name: string;
+    images: string[];
+  };
+  lastMessage: LastMessage;
+}
+
 const Chat = () => {
   const router = useRouter();
   const { user } = useUser();
   const authFetch = useAuthFetch();
 
-  const [matches, setMatches] = useState([]);
-  const [conversations, setConversations] = useState([]);
+  const [matches, setMatches] = useState<Match[]>([]);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
   const [noMatches, setNoMatches] = useState(true);
   const [noConversations, setNoConversations] = useState(true);
 
@@ -55,7 +81,7 @@ const Chat = () => {
         setNoConversations(false);
 
         // Listen for the latest message in each conversation
-        initialConversations.forEach((conversation) => {
+        initialConversations.forEach((conversation: Conversation) => {
           const chatRef = query(
             ref(db, `chats/${conversation.matchId}`),
             limitToLast(1)
@@ -93,7 +119,7 @@ const Chat = () => {
     fetchConversations();
   }, []);
 
-  const handleConvoClick = (matchId) => {
+  const handleConvoClick = (matchId: string) => {
     router.push(`/chat/${matchId}`);
   };
 

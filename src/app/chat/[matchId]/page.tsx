@@ -11,6 +11,16 @@ import Icon from "react-icons/fa";
 import UserDetailScreen from "@/components/feed/UserDetails";
 import { db } from "@/lib/frontendFirebase";
 import { useAuth, useSession, useUser } from "@clerk/nextjs";
+import { Profile } from "@/types";
+
+interface Message {
+  id: string;
+  senderId: string;
+  receiverId: string;
+  message: string;
+  receiverViewed: boolean;
+  sentAt: number;
+}
 
 const ChatScreen = () => {
   const router = useRouter();
@@ -18,8 +28,8 @@ const ChatScreen = () => {
   const { userId } = useAuth();
   const authFetch = useAuthFetch();
 
-  const [match, setMatch] = useState(null);
-  const [messages, setMessages] = useState([]);
+  const [match, setMatch] = useState<Profile | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -30,7 +40,7 @@ const ChatScreen = () => {
     if (messagesEndRef.current) {
       console.log("msgendref", messagesEndRef.current);
 
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      (messagesEndRef as any).current.scrollIntoView({ behavior: "smooth" });
     }
   };
 

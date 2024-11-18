@@ -48,11 +48,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         profile: {
-          name: matchProfile.name,
+          ...matchProfile.toObject(),
           age,
-          bio: matchProfile.bio,
-          images: matchProfile.images,
           distance,
+          isMatch,
         },
       },
       { status: 200 }
