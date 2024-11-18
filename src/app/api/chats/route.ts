@@ -2,6 +2,7 @@ import { connectDB } from "@/lib/db";
 import Block from "@/models/blockModel";
 import Chat from "@/models/chatModel";
 import Match from "@/models/matchModel";
+import Message from "@/models/messageModel";
 import User from "@/models/userModel";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
@@ -14,6 +15,7 @@ export async function GET(req: NextRequest) {
     if (!userId) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
+
     const blockList = await Block.find({
       $or: [{ userId: userId }, { blockedUserId: userId }],
     });
