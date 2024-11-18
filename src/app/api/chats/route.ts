@@ -16,12 +16,6 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
-    const newMessage = await Message.create({
-      content: "Hello",
-      senderId: userId,
-    });
-    await newMessage.save();
-
     const blockList = await Block.find({
       $or: [{ userId: userId }, { blockedUserId: userId }],
     });
