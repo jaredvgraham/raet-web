@@ -151,7 +151,7 @@ const ChatScreen = () => {
         image={match.images[0]}
         backDestination="/chat"
         userName={match.name}
-        style="py-6"
+        style="py-6 fixed top-0 w-full"
         imageOnPress={() => setShowProfile(true)}
       />
       <div className="flex-grow overflow-y-auto p-4 bg-gray-100">
