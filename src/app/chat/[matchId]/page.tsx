@@ -28,7 +28,7 @@ const ChatScreen = () => {
   const { matchId } = useParams();
   const { userId } = useAuth();
   const authFetch = useAuthFetch();
-  const { setHideNav, hideNav } = useShowNav();
+  const { setHideNav, hideNav, setShowNav } = useShowNav();
 
   const [match, setMatch] = useState<Profile | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -69,6 +69,7 @@ const ChatScreen = () => {
 
   useEffect(() => {
     const fetchMatch = async () => {
+      setShowNav(false);
       try {
         const response = await authFetch(`/matches/match`, {
           method: "POST",
@@ -144,12 +145,13 @@ const ChatScreen = () => {
   }
 
   return (
-    <div className={`flex flex-col ${hideNav ? "h-screen" : "h-full"}`}>
+    <div className={`flex flex-col ${hideNav ? "h-screen" : "h-[95%]"}`}>
       <Header
         backArrow={true}
         image={match.images[0]}
         backDestination="/chat"
         userName={match.name}
+        style="py-6"
         imageOnPress={() => setShowProfile(true)}
       />
       <div className="flex-grow overflow-y-auto p-4 bg-gray-100">
@@ -182,7 +184,7 @@ const ChatScreen = () => {
         ))}
         <div ref={messagesEndRef} />
       </div>
-      <div className="flex items-center border-t border-gray-300 p-3">
+      <div className="flex items-center border-t border-gray-300 p-3 ">
         <input
           type="text"
           value={message}

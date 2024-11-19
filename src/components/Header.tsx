@@ -40,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <div
-      className={`flex relative flex-row items-center justify-between px-3 h-14 ${style}`}
+      className={`flex relative flex-row items-center justify-between px-3  h-14 ${style}`}
     >
       {/* Back Arrow */}
       {backArrow && (
@@ -77,7 +77,7 @@ const Header: React.FC<HeaderProps> = ({
               src={image}
               alt="User Profile"
               fill
-              className="object-cover"
+              className="object-cover w-full h-full"
             />
           </div>
         </button>
