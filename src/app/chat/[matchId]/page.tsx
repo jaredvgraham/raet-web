@@ -12,6 +12,7 @@ import UserDetailScreen from "@/components/feed/UserDetails";
 import { db } from "@/lib/frontendFirebase";
 import { useAuth, useSession, useUser } from "@clerk/nextjs";
 import { Profile } from "@/types";
+import { useShowNav } from "@/hooks/showNav";
 
 interface Message {
   id: string;
@@ -27,6 +28,7 @@ const ChatScreen = () => {
   const { matchId } = useParams();
   const { userId } = useAuth();
   const authFetch = useAuthFetch();
+  const { setHideNav, hideNav } = useShowNav();
 
   const [match, setMatch] = useState<Profile | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -138,7 +140,7 @@ const ChatScreen = () => {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className={`flex flex-col ${hideNav ? "h-screen" : "h-full"}`}>
       <Header
         backArrow={true}
         image={match.images[0]}
@@ -180,6 +182,8 @@ const ChatScreen = () => {
         <input
           type="text"
           value={message}
+          onFocus={() => setHideNav(true)}
+          onBlur={() => setHideNav(false)}
           onChange={(e) => setMessage(e.target.value)}
           className="flex-grow border border-gray-400 p-3 rounded-full mr-3"
           placeholder="Type a message"
