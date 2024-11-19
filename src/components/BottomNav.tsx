@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useShowNav } from "@/hooks/showNav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

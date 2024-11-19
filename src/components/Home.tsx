@@ -1,6 +1,13 @@
+"use client";
+import { useShowNav } from "@/hooks/showNav";
+
 import Link from "next/link";
 
 export default function Home() {
+  const { setHideNav } = useShowNav();
+
+  setHideNav(true);
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Hero Section */}
