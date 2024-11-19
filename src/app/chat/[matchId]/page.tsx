@@ -119,6 +119,10 @@ const ChatScreen = () => {
     scrollToBottom();
   }, [messages]);
 
+  const handleBlur = () => {
+    setTimeout(() => setHideNav(false), 100); // Delay to avoid interference
+  };
+
   if (!match) {
     return (
       <div className="flex justify-center items-center h-screen bg-gray-100">
@@ -183,7 +187,7 @@ const ChatScreen = () => {
           type="text"
           value={message}
           onFocus={() => setHideNav(true)}
-          onBlur={() => setHideNav(false)}
+          onBlur={handleBlur}
           onChange={(e) => setMessage(e.target.value)}
           className="flex-grow border border-gray-400 p-3 rounded-full mr-3"
           placeholder="Type a message"
