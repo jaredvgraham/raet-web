@@ -37,7 +37,7 @@ const Onboarding = () => {
   const [uploadedFiles, setUploadedFiles] = useState<File[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isToSModalOpen, setIsToSModalOpen] = useState(false);
-  const [agreedToTerms, setAgreedToTerms] = useState(false);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Predefined interests
@@ -68,10 +68,6 @@ const Onboarding = () => {
   };
 
   const handleSubmit = async () => {
-    if (!agreedToTerms) {
-      setError("You must agree to the terms and conditions to proceed.");
-      return;
-    }
     try {
       console.log("Submitting user data", {
         dateOfBirth,
