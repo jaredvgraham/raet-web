@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useAuth, useUser } from "@clerk/nextjs";
+import { useAuth, useSession, useUser } from "@clerk/nextjs";
 import { useAuthFetch } from "@/hooks/privFetch";
 import { set } from "mongoose";
 
@@ -20,7 +20,7 @@ const NotificationContext = createContext<NotificationContextType | undefined>(
 export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { user } = useUser();
+  const { session } = useSession();
   const authFetch = useAuthFetch();
   const [subscription, setSubscription] = useState<PushSubscription | null>(
     null
@@ -30,10 +30,10 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     detectDevice();
-    if (user) {
+    if (session?.getToken()) {
       checkSubscription();
     }
-  }, [user]);
+  }, [session]);
 
   const detectDevice = () => {
     const isPWA =
