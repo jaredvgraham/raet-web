@@ -29,53 +29,52 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
   const [device, setDevice] = useState<"web" | "pwa">("web");
 
   useEffect(() => {
-    const detectDevice = () => {
-      const isPWA =
+    const detectDevice = async () => {
+      // Check both matchMedia and navigator.standalone
+      const isStandalone =
         window.matchMedia("(display-mode: standalone)").matches ||
-        (navigator as any).standalone; // iOS Safari standalone mode
-      setDevice(isPWA ? "pwa" : "web");
-    };
+        (navigator as any).standalone;
 
-    // Wait until the DOM is fully loaded
-    const handleDOMContentLoaded = () => {
-      detectDevice();
-      if (session?.getToken()) {
-        checkSubscription();
+      // Fallback: Wait for DOM to load and re-check
+      if (document.readyState === "loading") {
+        await new Promise((resolve) =>
+          document.addEventListener("DOMContentLoaded", resolve, {
+            once: true,
+          })
+        );
       }
+
+      setDevice(isStandalone ? "pwa" : "web");
     };
 
-    // Add event listener for DOMContentLoaded
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", handleDOMContentLoaded);
-    } else {
-      handleDOMContentLoaded();
+    detectDevice();
+
+    if (session?.getToken()) {
+      checkSubscription();
     }
-
-    // Cleanup DOMContentLoaded listener
-    return () => {
-      document.removeEventListener("DOMContentLoaded", handleDOMContentLoaded);
-    };
-  }, [session, device]);
+  }, [session]);
 
   useEffect(() => {
     // Detect device changes dynamically
     const handleDeviceChange = () => {
-      const isPWA =
+      const isStandalone =
         window.matchMedia("(display-mode: standalone)").matches ||
         (navigator as any).standalone;
-      setDevice(isPWA ? "pwa" : "web");
-      checkSubscription();
+      setDevice(isStandalone ? "pwa" : "web");
     };
 
-    // Add a listener for media query changes
+    // Debounced media query listener
     const mediaQuery = window.matchMedia("(display-mode: standalone)");
-    mediaQuery.addEventListener("change", handleDeviceChange);
+    const debouncedDeviceChange = () => {
+      setTimeout(handleDeviceChange, 200); // Debounce by 200ms
+    };
+
+    mediaQuery.addEventListener("change", debouncedDeviceChange);
 
     return () => {
-      mediaQuery.removeEventListener("change", handleDeviceChange);
+      mediaQuery.removeEventListener("change", debouncedDeviceChange);
     };
   }, []);
-
   const checkSubscription = async () => {
     try {
       const data = await authFetch("/push/check", {
