@@ -49,9 +49,15 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ device }),
       });
-      console.log("data", data);
+      console.log("data", data.subscription);
 
-      setIsSubscribed(!!data.subscription);
+      if (!data.subscription) {
+        console.log("no subscription");
+
+        setIsSubscribed(false);
+      } else {
+        setIsSubscribed(true);
+      }
       setSubscription(data.subscription || null);
     } catch (error) {
       console.error("Error checking subscription:", error);
