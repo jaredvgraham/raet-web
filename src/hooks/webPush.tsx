@@ -29,10 +29,32 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
   const [device, setDevice] = useState<"web" | "pwa">("web");
 
   useEffect(() => {
-    detectDevice();
-    if (session?.getToken()) {
-      checkSubscription();
+    const detectDevice = () => {
+      const isPWA =
+        window.matchMedia("(display-mode: standalone)").matches ||
+        (navigator as any).standalone; // iOS Safari standalone mode
+      setDevice(isPWA ? "pwa" : "web");
+    };
+
+    // Wait until the DOM is fully loaded
+    const handleDOMContentLoaded = () => {
+      detectDevice();
+      if (session?.getToken()) {
+        checkSubscription();
+      }
+    };
+
+    // Add event listener for DOMContentLoaded
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", handleDOMContentLoaded);
+    } else {
+      handleDOMContentLoaded();
     }
+
+    // Cleanup DOMContentLoaded listener
+    return () => {
+      document.removeEventListener("DOMContentLoaded", handleDOMContentLoaded);
+    };
   }, [session]);
 
   const detectDevice = () => {
