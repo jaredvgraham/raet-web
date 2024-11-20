@@ -17,11 +17,13 @@ import { set } from "mongoose";
 import { useShowNav } from "@/hooks/showNav";
 import { useSession } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { useNotification } from "@/hooks/webPush";
 
 const SwipeableCardDeck = () => {
   const authFetch = useAuthFetch();
   const { setHideNav } = useShowNav();
   const { session } = useSession();
+
   const Router = useRouter();
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
@@ -33,6 +35,7 @@ const SwipeableCardDeck = () => {
     visible: false,
     message: "",
     type: "success",
+    link: "",
   });
   const [moreDetails, setMoreDetails] = useState(false);
 
@@ -116,6 +119,7 @@ const SwipeableCardDeck = () => {
           visible: true,
           message: `${res.message.message} 🎉`,
           type: "success",
+          link: `/chat/${res.message.matchId}`,
         });
       }
 
@@ -169,6 +173,7 @@ const SwipeableCardDeck = () => {
                 onClose={() =>
                   setNotification({ ...notification, visible: false })
                 }
+                link={notification.link}
               />
             </>
           )}

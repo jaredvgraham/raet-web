@@ -1,4 +1,7 @@
-type AuthFetch = (url: string, options: RequestInit) => Promise<Response>;
+export type AuthFetch = (
+  url: string,
+  options: RequestInit
+) => Promise<Response>;
 export const sendLocation = async (
   latitude: number,
   longitude: number,

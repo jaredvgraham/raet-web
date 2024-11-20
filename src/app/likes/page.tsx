@@ -142,13 +142,13 @@ const LikesPage = () => {
           <h1 className="text-lg text-center text-gray-500 mb-4">
             These Users Like You {likes.length}
           </h1>
-          <div className="grid grid-cols-2 gap-2  ">
+          <div className="grid grid-cols-2 gap-2 p-2  ">
             {likes.length > 0 ? (
               likes.map((like) => (
                 <>
                   <div
                     key={like._id}
-                    className="relative w-full mb-4 cursor-pointer "
+                    className="relative w-full mb-4 cursor-pointer  "
                     onClick={() => handleDetailsClick(like)}
                   >
                     <Image

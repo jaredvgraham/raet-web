@@ -3,6 +3,7 @@ import User from "../models/userModel";
 import Like from "../models/likeModel";
 import Block from "../models/blockModel";
 import { createMatch } from "./matches";
+import Match, { IMatch } from "@/models/matchModel";
 
 export const getUserFeed = async (userId: string): Promise<IUser[]> => {
   const user = await User.findOne({ clerkId: userId });
@@ -175,9 +176,12 @@ export const likeUser = async (userId: string, likedUserId: string) => {
 
     console.log("sending match match...", user.clerkId, likedUser.clerkId);
 
-    const match = await createMatch(user.clerkId, likedUser.clerkId);
+    const matchId = await createMatch(user.clerkId, likedUser.clerkId);
 
-    return { message: `Match found for ${likedUser.name}` };
+    return {
+      message: `Match found for ${likedUser.name}`,
+      matchId: matchId,
+    };
   }
 };
 

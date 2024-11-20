@@ -58,7 +58,9 @@ const UserDetailScreen = ({
             <span
               key={index}
               className={`w-2 h-2 mx-1 rounded-full ${
-                index === activeIndex ? "bg-black" : "bg-gray-300 opacity-35"
+                index === activeIndex
+                  ? "border border-white bg-gray-200 "
+                  : "bg-gray-300 opacity-35"
               }`}
             />
           ))}

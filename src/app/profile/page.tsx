@@ -8,6 +8,7 @@ import SwipeableCard from "@/components/feed/SwipeableCard";
 
 import { Profile } from "@/types";
 import ProfileData from "@/components/Profile/ProfileData";
+import Link from "next/link";
 
 const ProfilePage = () => {
   const authFetch = useAuthFetch();
@@ -89,6 +90,9 @@ const ProfilePage = () => {
       ) : (
         <div className="flex flex-col h-full overflow-auto bg-gray-100">
           <ProfileData profile={profile} setPreview={setPreview} />
+          <Link className="" href="/noti">
+            Noti
+          </Link>
         </div>
       )}
     </>

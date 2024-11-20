@@ -13,6 +13,7 @@ import { db } from "@/lib/frontendFirebase";
 import { useAuth, useSession, useUser } from "@clerk/nextjs";
 import { Profile } from "@/types";
 import { useShowNav } from "@/hooks/showNav";
+import { notifyUser } from "@/utils/notifyUser";
 
 interface Message {
   id: string;
@@ -97,7 +98,7 @@ const ChatScreen = () => {
     setIsSending(true);
 
     try {
-      await authFetch("/chats/chat", {
+      const res = await authFetch("/chats/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -106,6 +107,17 @@ const ChatScreen = () => {
       });
 
       setMessage(""); // Clear the input field
+      try {
+        await notifyUser(
+          "New Message",
+          message,
+          res.newMessage.receiverId,
+          `/chat/${matchId}`,
+          authFetch
+        );
+      } catch (error) {
+        console.log("Error sending notification:", error);
+      }
     } catch (error) {
       console.error("Failed to send message:", error);
     } finally {
@@ -121,7 +133,7 @@ const ChatScreen = () => {
   }, [messages]);
 
   const handleBlur = () => {
-    setTimeout(() => setHideNav(false), 100); // Delay to avoid interference
+    setTimeout(() => setHideNav(false), 50); // Delay to avoid interference
   };
 
   if (!match) {

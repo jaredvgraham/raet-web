@@ -19,7 +19,6 @@ export async function GET(req: NextRequest) {
     }
 
     const feed = await getUserFeed(userId);
-    console.log("feed", feed);
 
     return NextResponse.json({ feed }, { status: 200 });
   } catch (error) {
@@ -58,7 +57,10 @@ export async function POST(req: NextRequest) {
 
     if (direction === "right") {
       const msg = await likeUser(userId, swipedId);
-      return NextResponse.json({ message: msg }, { status: 200 });
+      return NextResponse.json(
+        { message: msg, matchId: msg?.matchId },
+        { status: 200 }
+      );
     } else if (direction === "left") {
       await viewUser(userId, swipedId);
       return NextResponse.json({ message: "User viewed" }, { status: 200 });

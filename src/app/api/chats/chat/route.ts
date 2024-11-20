@@ -136,7 +136,10 @@ export async function POST(req: NextRequest) {
     chat.messages.push((message as any)._id);
     await chat.save();
 
-    return NextResponse.json({ message: "Message sent" }, { status: 200 });
+    return NextResponse.json(
+      { message: "Message sent", newMessage: msg },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error sending message:", error);
     return NextResponse.json(

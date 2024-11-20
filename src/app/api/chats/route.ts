@@ -70,14 +70,9 @@ export async function GET(req: NextRequest) {
       })
     );
 
-    // Filter out null values (i.e., matches without messages)
-    console.log("conversations before filtering ", conversations);
-
     const filteredConversations = conversations.filter(
       (conversation) => conversation !== null
     );
-
-    console.log("conversations after filtering ", filteredConversations);
 
     if (filteredConversations.length === 0) {
       return NextResponse.json(
