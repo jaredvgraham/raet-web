@@ -14,9 +14,11 @@ import Header from "@/components/Header";
 import Notification from "@/components/Notification";
 import UserDetailScreen from "@/components/feed/UserDetails";
 import { set } from "mongoose";
+import { useShowNav } from "@/hooks/showNav";
 
 const SwipeableCardDeck = () => {
   const authFetch = useAuthFetch();
+  const { setHideNav } = useShowNav();
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -29,6 +31,8 @@ const SwipeableCardDeck = () => {
     type: "success",
   });
   const [moreDetails, setMoreDetails] = useState(false);
+
+  setHideNav(false);
 
   useEffect(() => {
     console.log("profiles", profiles);

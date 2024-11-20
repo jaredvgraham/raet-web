@@ -125,13 +125,14 @@ const ProfileData = ({ profile, setPreview }: ProfileDataProps) => {
                   >
                     Preview
                   </button>
-                  <Image
-                    src={profile.images[0]}
-                    alt={profile.name}
-                    width={150}
-                    height={150}
-                    className="rounded-full object-cover self-center "
-                  />
+                  <div className=" relative w-40 h-40 rounded-full bg-gray-200 self-center">
+                    <Image
+                      src={profile.images[0]}
+                      alt={profile.name}
+                      fill
+                      className="rounded-full object-cover self-center w-full h-full "
+                    />
+                  </div>
                 </>
               ) : (
                 <p className="text-4xl text-white">No Image</p>
