@@ -33,7 +33,11 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <ClerkLoading />
+          <ClerkLoading>
+            <div className="h-screen w-full flex items-center justify-center">
+              <h1 className="text-3xl font-bold">Loading...</h1>
+            </div>
+          </ClerkLoading>
           <ClerkLoaded>
             <ShowNavProvider>
               <div className="flex flex-col justify-between bg-white ">

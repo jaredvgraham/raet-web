@@ -15,10 +15,14 @@ import Notification from "@/components/Notification";
 import UserDetailScreen from "@/components/feed/UserDetails";
 import { set } from "mongoose";
 import { useShowNav } from "@/hooks/showNav";
+import { useSession } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 const SwipeableCardDeck = () => {
   const authFetch = useAuthFetch();
   const { setHideNav } = useShowNav();
+  const { session } = useSession();
+  const Router = useRouter();
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -32,13 +36,18 @@ const SwipeableCardDeck = () => {
   });
   const [moreDetails, setMoreDetails] = useState(false);
 
-  setHideNav(false);
-
   useEffect(() => {
     console.log("profiles", profiles);
   }, [profiles]);
 
   useEffect(() => {
+    setHideNav(false);
+    const token = session?.getToken();
+    if (!token) {
+      //refetch the session
+      window.location.reload();
+      Router.push("/");
+    }
     if (!navigator.geolocation) {
       return;
     }
@@ -176,6 +185,7 @@ const SwipeableCardDeck = () => {
               if (index < currentProfileIndex - 1) {
                 return null;
               }
+
               return (
                 <SwipeableCard
                   key={profile._id}

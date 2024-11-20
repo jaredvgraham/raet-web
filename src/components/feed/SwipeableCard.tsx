@@ -142,7 +142,7 @@ const SwipeableCard = ({
       dragElastic={0.8} // Add elasticity for a more fluid drag
       onDrag={handleDrag}
       onDragEnd={handleDragEnd}
-      style={{ zIndex: isCurrentCard ? 2 : -index }}
+      style={{ zIndex: isCurrentCard ? 50 : 50 - index }}
     >
       <div
         className="relative w-full h-full overflow-hidden rounded-t-2xl bg-black"
