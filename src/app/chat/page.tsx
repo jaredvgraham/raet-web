@@ -12,6 +12,7 @@ import { db } from "@/lib/frontendFirebase";
 import { useAuthFetch } from "@/hooks/privFetch";
 import { FaBell, FaCheck } from "react-icons/fa";
 import { Message } from "@/types";
+import { useNotification } from "@/hooks/webPush";
 
 interface Match {
   matchId: string;
@@ -43,6 +44,7 @@ const Chat = () => {
   const router = useRouter();
   const { user } = useUser();
   const authFetch = useAuthFetch();
+  const { isSubscribed, subscribeToNotifications } = useNotification();
 
   const [matches, setMatches] = useState<Match[]>([]);
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -168,7 +170,7 @@ const Chat = () => {
   return (
     <div className="flex flex-col h-full overflow-y-auto">
       <div className="pb-24">
-        <Header />
+        <Header noti={true} />
         <div className="p-4 border-b border-gray-300">
           <h2 className="text-xl font-bold">Matches</h2>
         </div>

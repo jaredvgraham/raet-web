@@ -71,8 +71,13 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
     console.log("in subscribeToNotifications 2");
 
     try {
-      const registration = await navigator.serviceWorker.ready;
-      console.log("registration", registration);
+      const registration = await navigator.serviceWorker.register("/sw.js", {
+        scope: "/",
+      });
+      if (!registration) {
+        console.error("Service worker registration failed.");
+        return;
+      }
       const sub = await registration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: urlBase64ToUint8Array(

@@ -22,6 +22,7 @@ import { getCityFromLocation } from "@/utils";
 import Header from "../Header";
 import EditProfileScreen from "./EditProfileScreen";
 import { SignOutButton } from "@clerk/nextjs";
+import { useNotification } from "@/hooks/webPush";
 
 type ProfileDataProps = {
   profile: Profile;
@@ -29,7 +30,9 @@ type ProfileDataProps = {
 };
 
 const ProfileData = ({ profile, setPreview }: ProfileDataProps) => {
+  const { isSubscribed, subscribeToNotifications } = useNotification();
   const [editing, setEditing] = useState(false);
+
   const authFetch = useAuthFetch();
   const [city, setCity] = useState<string | undefined>();
   const [blockedUsers, setBlockedUsers] = useState<Profile[]>([]);
@@ -117,6 +120,16 @@ const ProfileData = ({ profile, setPreview }: ProfileDataProps) => {
         ) : (
           <>
             <div className="flex flex-col   p-6 h-full overflow-auto">
+              {!isSubscribed && (
+                <button
+                  onClick={subscribeToNotifications}
+                  className="bg-green-500 mb-2 text-white p-4 rounded-full items-center"
+                >
+                  <p className="text-lg font-bold">
+                    Subscribe to Notifications
+                  </p>
+                </button>
+              )}
               {profile.images ? (
                 <>
                   <button

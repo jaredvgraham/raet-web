@@ -5,8 +5,10 @@ import {
   FaAngleDoubleDown,
   FaAngleDoubleUp,
   FaArrowLeft,
+  FaBell,
 } from "react-icons/fa";
 import { useShowNav } from "@/hooks/showNav";
+import { useNotification } from "@/hooks/webPush";
 
 type HeaderProps = {
   backArrow?: boolean;
@@ -15,6 +17,7 @@ type HeaderProps = {
   userName?: string;
   style?: string;
   imageOnPress?: () => void;
+  noti?: boolean;
 };
 
 const Header: React.FC<HeaderProps> = ({
@@ -23,9 +26,11 @@ const Header: React.FC<HeaderProps> = ({
   image,
   style,
   imageOnPress,
+  noti,
 }) => {
   const router = useRouter();
   const { showNav, setShowNav } = useShowNav();
+  const { isSubscribed, subscribeToNotifications } = useNotification();
   const pathname = usePathname();
   const isChatPage =
     pathname.startsWith("/chat/") && pathname.split("/").length === 3;
@@ -81,6 +86,19 @@ const Header: React.FC<HeaderProps> = ({
             />
           </div>
         </button>
+      )}
+
+      {/* Notification Button */}
+      {noti && (
+        <div
+          className="absolute right-5 top-5"
+          onClick={subscribeToNotifications}
+        >
+          <FaBell
+            className={` ${isSubscribed ? "text-yellow-500" : "text-black"}`}
+            size={20}
+          />
+        </div>
       )}
     </div>
   );

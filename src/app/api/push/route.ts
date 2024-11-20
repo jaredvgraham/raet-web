@@ -5,7 +5,7 @@ import { auth } from "@clerk/nextjs/server";
 import webpush from "web-push";
 
 webpush.setVapidDetails(
-  "mailto:your-email@example.com",
+  "mailto:jrod1532002@gmail.com",
   process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
   process.env.VAPID_PRIVATE_KEY!
 );
