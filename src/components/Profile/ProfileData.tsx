@@ -125,9 +125,7 @@ const ProfileData = ({ profile, setPreview }: ProfileDataProps) => {
                   onClick={subscribeToNotifications}
                   className="bg-green-500 mb-2 text-white p-4 rounded-full items-center"
                 >
-                  <p className="text-lg font-bold">
-                    Subscribe to Notifications
-                  </p>
+                  <p className="text-lg font-bold">Allow Notifications</p>
                 </button>
               )}
               {profile.images ? (
