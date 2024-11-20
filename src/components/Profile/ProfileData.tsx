@@ -102,7 +102,7 @@ const ProfileData = ({ profile, setPreview }: ProfileDataProps) => {
   //   }
 
   return (
-    <div className="overflow-y-auto ">
+    <div className="overflow-y-auto bg-white ">
       <Header />
       <div className="overflow-y-auto flex justify-evenly">
         {editing ? (
@@ -116,7 +116,7 @@ const ProfileData = ({ profile, setPreview }: ProfileDataProps) => {
           />
         ) : (
           <>
-            <div className="flex flex-col bg-gray-100 p-6 h-full overflow-auto">
+            <div className="flex flex-col   p-6 h-full overflow-auto">
               {profile.images ? (
                 <>
                   <button

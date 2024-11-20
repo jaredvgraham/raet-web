@@ -93,7 +93,7 @@ export default function Home() {
 
             <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 p-6">
               <Image
-                src="/feed.png"
+                src="/profile.png"
                 alt="Profile preview"
                 width={300}
                 height={200}

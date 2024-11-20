@@ -36,7 +36,7 @@ export default function RootLayout({
           <ClerkLoading />
           <ClerkLoaded>
             <ShowNavProvider>
-              <div className="flex flex-col justify-between ">
+              <div className="flex flex-col justify-between bg-white ">
                 <div className="h-[90vh] ">{children}</div>
                 <BottomNavigation />
               </div>

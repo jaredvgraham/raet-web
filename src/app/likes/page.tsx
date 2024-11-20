@@ -51,7 +51,7 @@ const LikesPage = () => {
 
   const sendRight = async () => {
     try {
-      const res = await authFetch("/feed", {
+      const data = await authFetch("/feed", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -61,10 +61,8 @@ const LikesPage = () => {
           direction: "right",
         }),
       });
-      const data = await res.json();
-      console.log("res", data);
 
-      if (data.message && data.message.includes("Match")) {
+      if (data.message.message && data.message.message.includes("Match")) {
         setShowNotification({
           visible: true,
           message: `${data.message} 🎉`,
@@ -72,6 +70,9 @@ const LikesPage = () => {
         });
       }
       setSelectedProfile(null);
+      setLikes((prev) =>
+        prev.filter((like) => like._id !== selectedProfile?._id)
+      );
     } catch (error) {
       console.error("Error swiping right:", error);
     }
@@ -90,6 +91,9 @@ const LikesPage = () => {
         }),
       });
       setSelectedProfile(null);
+      setLikes((prev) =>
+        prev.filter((like) => like._id !== selectedProfile?._id)
+      );
     } catch (error) {
       console.error("Error swiping left:", error);
     }

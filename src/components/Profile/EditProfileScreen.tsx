@@ -90,7 +90,7 @@ const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
   };
 
   return (
-    <div className="flex flex-col bg-gray-100 p-6 h-full overflow-auto">
+    <div className="flex flex-col bg-white p-6 h-full overflow-auto">
       <h2 className="text-2xl font-bold text-gray-800 mb-5">Edit Profile</h2>
 
       {/* Profile Images */}
@@ -242,13 +242,13 @@ const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
       {/* Save & Cancel Buttons */}
       <div className="flex justify-between mt-6">
         <button
-          className="bg-red-500 text-white py-3 px-6 rounded-lg"
+          className="bg-red-600 text-white py-3 px-6 rounded-lg"
           onClick={onCancel}
         >
           Cancel
         </button>
         <button
-          className="bg-green-400 text-white py-3 px-6 rounded-lg"
+          className="bg-green-600 text-white py-3 px-6 rounded-lg"
           onClick={handleSave}
         >
           Save
