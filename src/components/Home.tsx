@@ -54,10 +54,10 @@ export default function Home() {
       {/* App Preview Section */}
       <section id="app-preview" className="py-20 bg-gray-100">
         <div className="container mx-auto text-center">
-          <h2 className="text-5xl font-bold text-gray-800">
+          <h2 className="text-4xl font-bold text-gray-800">
             Experience Raet in Action
           </h2>
-          <p className="mt-4 text-lg text-gray-600">
+          <p className="mt-4 p-4 text-lg text-gray-600">
             See how Raet makes dating smarter, faster, and better.
           </p>
 
@@ -110,12 +110,14 @@ export default function Home() {
 
       {/* Video Section */}
       <section id="how-to-add" className="py-20 bg-white">
-        <div className="container mx-auto text-center">
-          <h2 className="text-5xl font-bold text-gray-800">
+        <div className="container mx-auto text-center p-2">
+          <h2 className="text-3xl font-bold text-gray-800">
             Add Raet to Your Home Screen
           </h2>
           <p className="text-lg text-gray-600 mt-4">
             Learn how to add Raet for seamless access.
+            <br />
+            Skip the app store.
           </p>
           <div className="mt-10">
             <iframe
@@ -132,7 +134,7 @@ export default function Home() {
       </section>
 
       {/* Call to Action */}
-      <section className="bg-blue-700 text-white py-20">
+      <section className="bg-black text-gray-200 py-20">
         <div className="container mx-auto text-center">
           <h2 className="text-5xl font-extrabold">
             Ready to Transform Your Dating Experience?
@@ -140,22 +142,18 @@ export default function Home() {
           <p className="text-lg font-light mt-4">
             Join thousands of users finding meaningful connections.
           </p>
-          <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-            <button
-              onClick={() =>
-                alert(
-                  "Tap the share button on your browser and select 'Add to Home Screen'."
-                )
-              }
-              className="bg-white text-blue-700 font-semibold px-8 py-4 rounded-full shadow-md hover:shadow-lg hover:bg-gray-200 transition duration-300"
-            >
-              Learn How to Add
-            </button>
+          <div className="mt-8 p-5 flex flex-col sm:flex-row justify-center gap-4">
             <Link
               href="/sign-up"
               className="bg-teal-400 text-white font-semibold px-8 py-4 rounded-full shadow-md hover:shadow-lg hover:bg-teal-300 transition duration-300"
             >
               Sign Up Now
+            </Link>
+            <Link
+              href="/sign-in"
+              className="border border-teal-400 text-teal-400 font-semibold px-8 py-4 rounded-full hover:bg-teal-400 hover:text-white transition duration-300"
+            >
+              Log In
             </Link>
           </div>
         </div>

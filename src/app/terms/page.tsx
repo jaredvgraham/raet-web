@@ -1,8 +1,27 @@
+"use client";
+import { useShowNav } from "@/hooks/showNav";
 import React from "react";
 
-const TermsOfService = () => {
+type TosProps = {
+  setTosModal: (value: boolean) => void;
+};
+
+const TermsOfService = ({ setTosModal }: TosProps) => {
+  const { setHideNav } = useShowNav();
+  setHideNav(true);
   return (
     <div className="min-h-screen bg-gray-100 py-10">
+      {setTosModal && (
+        <button
+          onClick={() => {
+            setTosModal(false);
+          }}
+          className="fixed top-4 right-4 bg-white p-2 rounded-full shadow-lg text-red-400"
+        >
+          X
+        </button>
+      )}
+
       <div className="max-w-4xl mx-auto bg-white p-8 shadow-lg rounded-lg">
         <h1 className="text-3xl font-bold mb-6">Raet Terms of Service</h1>
         <p className="font-semibold mb-2">Effective Date: 10/08/2024</p>

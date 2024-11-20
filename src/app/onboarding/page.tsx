@@ -14,6 +14,7 @@ import { upload } from "@vercel/blob/client";
 import { useAuthFetch } from "@/hooks/privFetch";
 import { formatError } from "@/utils/formatErr";
 import { useShowNav } from "@/hooks/showNav";
+import TermsOfService from "../terms/page";
 
 interface Slide {
   title: string;
@@ -35,7 +36,8 @@ const Onboarding = () => {
   const [customInterest, setCustomInterest] = useState<string>("");
   const [uploadedFiles, setUploadedFiles] = useState<File[] | null>(null);
   const [error, setError] = useState<string | null>(null);
-
+  const [isToSModalOpen, setIsToSModalOpen] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Predefined interests
@@ -66,6 +68,10 @@ const Onboarding = () => {
   };
 
   const handleSubmit = async () => {
+    if (!agreedToTerms) {
+      setError("You must agree to the terms and conditions to proceed.");
+      return;
+    }
     try {
       console.log("Submitting user data", {
         dateOfBirth,
@@ -116,6 +122,23 @@ const Onboarding = () => {
   };
 
   const slides: Slide[] = [
+    {
+      title: "Terms and Conditions",
+      component: (
+        <div className="text-center">
+          <p className="text-gray-600">
+            By clicking "Next", you agree to our{" "}
+            <button
+              onClick={() => setIsToSModalOpen(true)}
+              className="text-blue-500 underline"
+            >
+              Terms and Conditions
+            </button>
+            .
+          </p>
+        </div>
+      ),
+    },
     {
       title: "What's your date of birth?",
       component: (
@@ -291,6 +314,12 @@ const Onboarding = () => {
       swiperRef.current?.slideNext(); // Move to the next slide
     }
   };
+
+  if (isToSModalOpen) {
+    console.log("tos modal");
+
+    return <TermsOfService setTosModal={setIsToSModalOpen} />;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center  h-full pb-2">
