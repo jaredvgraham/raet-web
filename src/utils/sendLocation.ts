@@ -8,6 +8,7 @@ export const sendLocation = async (
   authFetch: AuthFetch
 ) => {
   try {
+    //
     const res = await authFetch("/user/location", {
       method: "PATCH",
       body: JSON.stringify({ lat: latitude, lon: longitude }),
