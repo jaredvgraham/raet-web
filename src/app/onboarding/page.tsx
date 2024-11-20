@@ -37,6 +37,7 @@ const Onboarding = () => {
   const [uploadedFiles, setUploadedFiles] = useState<File[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isToSModalOpen, setIsToSModalOpen] = useState(false);
+  const [submiting, setSubmiting] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -68,6 +69,10 @@ const Onboarding = () => {
   };
 
   const handleSubmit = async () => {
+    if (submiting) {
+      return;
+    }
+    setSubmiting(true);
     try {
       console.log("Submitting user data", {
         dateOfBirth,
@@ -113,7 +118,10 @@ const Onboarding = () => {
       setHideNav(false);
     } catch (error) {
       console.error("Failed to submit", error);
+
       setError(formatError(error));
+    } finally {
+      setSubmiting(false);
     }
   };
 
@@ -342,7 +350,11 @@ const Onboarding = () => {
         className="mt-6 bg-black text-white px-6 py-3 rounded"
         onClick={handleNext}
       >
-        {activeIndex === slides.length - 1 ? "Submit" : "Next"}
+        {submiting
+          ? "Submiting"
+          : activeIndex === slides.length - 1
+          ? "Submit"
+          : "Next"}
       </button>
     </div>
   );
