@@ -13,6 +13,7 @@ import { type PutBlobResult } from "@vercel/blob";
 import { upload } from "@vercel/blob/client";
 import { useAuthFetch } from "@/hooks/privFetch";
 import { formatError } from "@/utils/formatErr";
+import { useShowNav } from "@/hooks/showNav";
 
 interface Slide {
   title: string;
@@ -22,6 +23,7 @@ interface Slide {
 const Onboarding = () => {
   const router = useRouter();
   const authfetch = useAuthFetch();
+  const { setHideNav } = useShowNav();
   const swiperRef = useRef<SwiperCore | null>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
@@ -106,6 +108,7 @@ const Onboarding = () => {
       });
       console.log("Submitted", res);
       router.push("/feed");
+      setHideNav(false);
     } catch (error) {
       console.error("Failed to submit", error);
       setError(formatError(error));

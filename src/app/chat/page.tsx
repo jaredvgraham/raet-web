@@ -200,7 +200,8 @@ const Chat = () => {
                       />
                     </div>
                     <p className="text-center font-semibold mt-2">
-                      {match.profile.name.split(" ")[0]}
+                      {match.profile.name.charAt(0).toUpperCase() +
+                        match.profile.name.slice(1)}
                     </p>
                   </button>
                 </div>
@@ -260,7 +261,10 @@ const Chat = () => {
                           notRead ? "text-black" : "text-gray-700"
                         }`}
                       >
-                        {conversation?.matchedUser?.name}
+                        {conversation?.matchedUser?.name
+                          .charAt(0)
+                          .toUpperCase() +
+                          conversation?.matchedUser?.name.slice(1)}
                       </h3>
                       <div className="flex items-center space-x-2">
                         {sentByMe && (
@@ -279,7 +283,7 @@ const Chat = () => {
                             }`}
                           />
                         )}
-                        <p className="text-sm text-gray-600 truncate break-words max-w-[70%]">
+                        <p className="text-sm text-gray-600 truncate break-words max-w-[80%]">
                           {conversation?.lastMessage?.message}
                         </p>
                       </div>
