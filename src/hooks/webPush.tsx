@@ -55,14 +55,26 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
     return () => {
       document.removeEventListener("DOMContentLoaded", handleDOMContentLoaded);
     };
-  }, [session]);
+  }, [session, device]);
 
-  const detectDevice = () => {
-    const isPWA =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      (navigator as any).standalone; // iOS Safari standalone mode
-    setDevice(isPWA ? "pwa" : "web");
-  };
+  useEffect(() => {
+    // Detect device changes dynamically
+    const handleDeviceChange = () => {
+      const isPWA =
+        window.matchMedia("(display-mode: standalone)").matches ||
+        (navigator as any).standalone;
+      setDevice(isPWA ? "pwa" : "web");
+      checkSubscription();
+    };
+
+    // Add a listener for media query changes
+    const mediaQuery = window.matchMedia("(display-mode: standalone)");
+    mediaQuery.addEventListener("change", handleDeviceChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleDeviceChange);
+    };
+  }, []);
 
   const checkSubscription = async () => {
     try {
