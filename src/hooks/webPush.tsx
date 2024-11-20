@@ -29,52 +29,35 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
   const [device, setDevice] = useState<"web" | "pwa">("web");
 
   useEffect(() => {
-    const detectDevice = async () => {
-      // Check both matchMedia and navigator.standalone
-      const isStandalone =
-        window.matchMedia("(display-mode: standalone)").matches ||
-        (navigator as any).standalone;
-
-      // Fallback: Wait for DOM to load and re-check
-      if (document.readyState === "loading") {
-        await new Promise((resolve) =>
-          document.addEventListener("DOMContentLoaded", resolve, {
-            once: true,
-          })
-        );
-      }
-
-      setDevice(isStandalone ? "pwa" : "web");
-    };
-
     detectDevice();
-
     if (session?.getToken()) {
       checkSubscription();
     }
   }, [session]);
 
-  useEffect(() => {
-    // Detect device changes dynamically
-    const handleDeviceChange = () => {
-      const isStandalone =
-        window.matchMedia("(display-mode: standalone)").matches ||
-        (navigator as any).standalone;
-      setDevice(isStandalone ? "pwa" : "web");
-    };
+  const detectDevice = async () => {
+    // Check display mode using matchMedia and standalone
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (navigator as any).standalone; // For iOS Safari PWA
 
-    // Debounced media query listener
-    const mediaQuery = window.matchMedia("(display-mode: standalone)");
-    const debouncedDeviceChange = () => {
-      setTimeout(handleDeviceChange, 200); // Debounce by 200ms
-    };
+    // Check if the service worker is active
+    let hasServiceWorker = false;
+    if ("serviceWorker" in navigator) {
+      const registration = await navigator.serviceWorker.ready.catch(
+        () => null
+      );
+      hasServiceWorker = !!registration;
+    }
 
-    mediaQuery.addEventListener("change", debouncedDeviceChange);
+    // Determine the device type based on combined conditions
+    if (isStandalone || hasServiceWorker) {
+      setDevice("pwa");
+    } else {
+      setDevice("web");
+    }
+  };
 
-    return () => {
-      mediaQuery.removeEventListener("change", debouncedDeviceChange);
-    };
-  }, []);
   const checkSubscription = async () => {
     try {
       const data = await authFetch("/push/check", {
