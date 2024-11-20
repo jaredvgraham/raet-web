@@ -5,7 +5,8 @@ export const notifyUser = async (
   message: string,
   receiverId: string,
   link: string,
-  authFetch: AuthFetch
+  authFetch: AuthFetch,
+  name: string
 ) => {
   await authFetch("/push/send", {
     method: "POST",
@@ -15,6 +16,7 @@ export const notifyUser = async (
       title: title,
       body: message,
       url: link,
+      name: name,
     }),
   });
 };

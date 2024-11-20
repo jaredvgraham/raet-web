@@ -113,7 +113,8 @@ const ChatScreen = () => {
           message,
           res.newMessage.receiverId,
           `/chat/${matchId}`,
-          authFetch
+          authFetch,
+          (match as any).name
         );
       } catch (error) {
         console.log("Error sending notification:", error);
@@ -133,7 +134,7 @@ const ChatScreen = () => {
   }, [messages]);
 
   const handleBlur = () => {
-    setTimeout(() => setHideNav(false), 50); // Delay to avoid interference
+    setTimeout(() => setHideNav(false), 200); // Delay to avoid interference
   };
 
   if (!match) {

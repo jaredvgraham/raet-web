@@ -12,7 +12,7 @@ webpush.setVapidDetails(
 );
 
 export async function POST(req: NextRequest) {
-  const { clerkId, title, body, url, message } = await req.json();
+  const { clerkId, title, body, url, message, name } = await req.json();
 
   if (!clerkId || !title || !body) {
     return NextResponse.json(
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     // Prepare notification payload
     const notificationPayload = JSON.stringify({
       title,
-      body: `${body}${message ? ` - ${message}` : ""}`, // Append the message, if provided
+      body: `${name && `${name}: `} ${body}${message ? ` - ${message}` : ""}`, // Append the message, if provided
       url: url || "/", // Default to root if no URL is provided
     });
 
