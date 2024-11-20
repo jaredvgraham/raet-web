@@ -23,9 +23,18 @@ export async function POST(req: NextRequest) {
 
     // Find the user's subscription
     const userSubscription = await Subscription.findOne({ clerkId });
-    console.log("userSubscription", userSubscription);
+    console.log("userSubscription found", userSubscription);
 
     if (!userSubscription || !userSubscription.subscriptions[device]) {
+      console.log("inside if");
+      console.log("device", device);
+
+      console.log("userSubscription", userSubscription);
+      console.log(
+        "userSubscription.subscriptions[device]",
+        userSubscription.subscriptions[device]
+      );
+
       return NextResponse.json(
         { message: "No subscription found" },
         { status: 404 }
