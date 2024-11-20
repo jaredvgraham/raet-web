@@ -123,7 +123,7 @@ const Onboarding = () => {
       component: (
         <div className="text-center">
           <p className="text-gray-600">
-            By clicking "Next", you agree to our{" "}
+            By continuing, you agree to our{" "}
             <button
               onClick={() => setIsToSModalOpen(true)}
               className="text-blue-500 underline"
@@ -157,7 +157,7 @@ const Onboarding = () => {
                 gender === option
                   ? option === "Male"
                     ? "bg-blue-400 text-white"
-                    : "bg-pink-500 text-white"
+                    : "bg-pink-400 text-white"
                   : "bg-gray-300"
               }`}
               onClick={() => setGender(option)}
@@ -180,7 +180,7 @@ const Onboarding = () => {
                   ? option === "Male"
                     ? "bg-blue-400 text-white"
                     : option === "Female"
-                    ? "bg-pink-500 text-white"
+                    ? "bg-pink-400 text-white"
                     : "bg-purple-300 text-white"
                   : "bg-gray-300"
               }`}
@@ -259,7 +259,7 @@ const Onboarding = () => {
             }}
           />
           <button
-            className="p-4 bg-teal-400 text-white rounded"
+            className="p-4 bg-black text-white rounded"
             onClick={() => fileInputRef.current?.click()}
           >
             Upload Images
@@ -319,7 +319,6 @@ const Onboarding = () => {
 
   return (
     <div className="flex flex-col items-center justify-center  h-full pb-2">
-      {error && <div className="text-red-500 mb-4">{error}</div>}
       <Swiper
         onSwiper={(swiper) => (swiperRef.current = swiper)} // Capture Swiper instance
         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
@@ -336,7 +335,9 @@ const Onboarding = () => {
         ))}
       </Swiper>
       {/* Add the Dots Component */}
+      {error && <div className="text-red-500 mb-4">{error}</div>}
       <Dots totalSlides={slides.length} activeIndex={activeIndex} />
+
       <button
         className="mt-6 bg-black text-white px-6 py-3 rounded"
         onClick={handleNext}
