@@ -76,7 +76,7 @@ export default function Home() {
                 src: "/feed.png",
                 title: "Personalized Feed",
                 description:
-                  "Get curated matches that align with your unique preferences.",
+                  "View users with similar ratings to enhance match quality.",
               },
               {
                 src: "/chat.png",
@@ -87,7 +87,7 @@ export default function Home() {
                 src: "/profile.png",
                 title: "Rich User Profiles",
                 description:
-                  "Dive deep into detailed profiles with ratings and preferences.",
+                  "Make your profile stand out with images, interests and a bio.",
               },
             ].map((item, index) => (
               <div
@@ -118,7 +118,7 @@ export default function Home() {
             Add Raet to Your Home Screen
           </h2>
           <p className="mt-4 text-lg text-gray-600">
-            Learn how to add Raet for seamless access without the app store.
+            Learn how to install Raet for seamless access without the app store.
           </p>
           <div className="mt-8">
             <iframe
