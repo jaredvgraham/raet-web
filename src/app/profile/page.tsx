@@ -9,9 +9,11 @@ import SwipeableCard from "@/components/feed/SwipeableCard";
 import { Profile } from "@/types";
 import ProfileData from "@/components/Profile/ProfileData";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const ProfilePage = () => {
   const authFetch = useAuthFetch();
+  const Router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [preview, setPreview] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -32,6 +34,7 @@ const ProfilePage = () => {
         setProfile(response.profile);
       } catch (error) {
         console.error("Failed to fetch profile:", error);
+        Router.push("/");
       }
     };
 

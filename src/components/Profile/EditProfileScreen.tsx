@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Profile } from "@/types";
 import { FaGenderless, FaTimes, FaPlus } from "react-icons/fa";
 
@@ -42,6 +42,10 @@ const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
   const [interests, setInterests] = useState<string[]>(profile.interests);
   const [customInterest, setCustomInterest] = useState<string>("");
   const [images, setImages] = useState<string[]>(profile.images);
+
+  useEffect(() => {
+    console.log("images", images);
+  }, [images]);
 
   const handleSave = () => {
     const maxDistance = isMaxDistance ? MAX_DISTANCE_MILES : sliderValue;
@@ -102,7 +106,11 @@ const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
           {images.map((image, index) => (
             <div key={index} className="relative w-20 h-20">
               <img
-                src={image}
+                src={
+                  typeof image === "string"
+                    ? image // If it's a string URL, use it directly
+                    : URL.createObjectURL(image)
+                }
                 alt={`Uploaded ${index}`}
                 className="w-full h-full rounded-lg object-cover"
               />
@@ -121,7 +129,15 @@ const EditProfileScreen: React.FC<EditProfileScreenProps> = ({
               multiple
               className="hidden"
               accept="image/*"
-              onChange={handleImageUpload}
+              onChange={(e) => {
+                const files = e.target.files;
+                if (files) {
+                  setImages((prev: any[] | null) => [
+                    ...(prev || []),
+                    ...Array.from(files),
+                  ]);
+                }
+              }}
             />
           </label>
         </div>

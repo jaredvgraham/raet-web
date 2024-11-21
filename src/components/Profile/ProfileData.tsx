@@ -25,6 +25,7 @@ import { SignOutButton } from "@clerk/nextjs";
 import { useNotification } from "@/hooks/webPush";
 import { PutBlobResult } from "@vercel/blob";
 import { upload } from "@vercel/blob/client";
+import { deleteBlob } from "@/utils/deleteBlob";
 
 type ProfileDataProps = {
   profile: Profile;
@@ -85,6 +86,20 @@ const ProfileData = ({ profile, setPreview }: ProfileDataProps) => {
         (image) => !existingImages.includes(image)
       );
 
+      const deletedImages = existingImages.filter(
+        (image) =>
+          !updatedProfile.images.includes(image) && !newImages.includes(image)
+      );
+
+      if (deletedImages) {
+        await authFetch("/avatar/delete", {
+          method: "DELETE",
+          body: JSON.stringify({
+            urls: deletedImages,
+          }),
+        });
+      }
+
       if (newImages) {
         const uploadedBlobUrls = await Promise.all(
           newImages.map(async (file: any) => {
@@ -112,6 +127,7 @@ const ProfileData = ({ profile, setPreview }: ProfileDataProps) => {
       });
 
       console.log("Profile updated successfully:", response);
+      // window.location.reload();
     } catch (error) {
       console.error("Error updating profile:", error);
     }

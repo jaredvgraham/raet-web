@@ -108,6 +108,14 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
 export async function PATCH(req: NextRequest) {
   try {
+    console.log("at patch");
+    console.log("at patch");
+    console.log("at patch");
+    console.log("at patch");
+    console.log("at patch");
+    console.log("at patch");
+    console.log("at patch");
+
     await connectDB();
     const { userId } = await auth();
     if (!userId) {
@@ -123,15 +131,21 @@ export async function PATCH(req: NextRequest) {
     const { name, bio, preferredGender, maxDistance, interests, imageUrls } =
       await req.json();
 
+    console.log("name", name);
+    console.log("bio", bio);
+    console.log("preferredGender", preferredGender);
+    console.log("maxDistance", maxDistance);
+    console.log("interests", interests);
+    console.log("imageUrls", imageUrls);
+
     user.name = name || user.name;
     user.bio = bio || user.bio;
     user.preferredGender = preferredGender || user.preferredGender;
     user.maxDistance = maxDistance
       ? parseInt(maxDistance, 10)
       : user.maxDistance;
-    user.interests = interests
-      ? interests.split(",").map((item: string) => item.trim())
-      : user.interests;
+    user.interests = interests;
+
     user.images = imageUrls.length > 0 ? imageUrls : user.images;
 
     await user.save();
