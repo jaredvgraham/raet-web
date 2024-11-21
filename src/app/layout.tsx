@@ -5,6 +5,7 @@ import { ClerkLoaded, ClerkLoading, ClerkProvider } from "@clerk/nextjs";
 import BottomNavigation from "@/components/BottomNav";
 import { ShowNavProvider } from "@/hooks/showNav";
 import { NotificationProvider } from "@/hooks/webPush";
+import Analytics from "@/components/Analytics";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,6 +35,7 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+          <Analytics />
           <ClerkLoading>
             <div className="h-screen w-full flex items-center justify-center">
               <h1 className="text-3xl font-bold">Loading...</h1>

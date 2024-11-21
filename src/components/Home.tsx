@@ -3,12 +3,14 @@
 import { useShowNav } from "@/hooks/showNav";
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect } from "react";
 
 export default function Home() {
   const { setHideNav } = useShowNav();
 
-  // Hide bottom navigation for this page
-  setHideNav(true);
+  useEffect(() => {
+    setHideNav(true);
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-white via-gray-50 to-gray-100">
