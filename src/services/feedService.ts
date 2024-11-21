@@ -26,13 +26,17 @@ export const getUserFeed = async (userId: string): Promise<IUser[]> => {
   twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
 
   // Calculate the current user's average rating
-  const userAverageRating =
+  let userAverageRating =
     user.ratings && user.ratings.length > 0
       ? user.ratings.reduce((acc: any, curr: any) => acc + curr, 0) /
         user.ratings.length
       : 0;
 
   console.log("userAverageRating", userAverageRating);
+
+  if (userAverageRating === 1) {
+    userAverageRating = 2;
+  }
 
   const blockedUsers = await Block.find({
     $or: [{ userId: user.clerkId }, { blockedUserId: user.clerkId }],
