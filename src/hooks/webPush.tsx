@@ -41,6 +41,15 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
       window.matchMedia("(display-mode: standalone)").matches ||
       (navigator as any).standalone; // For iOS Safari PWA
 
+    if ("getInstalledRelatedApps" in navigator) {
+      (navigator as any).getInstalledRelatedApps().then((relatedApps: any) => {
+        if (relatedApps.length > 0) {
+          // PWA is installed
+          setDevice("pwa");
+          return;
+        }
+      });
+    }
     // Check if the service worker is active
     let hasServiceWorker = false;
     if ("serviceWorker" in navigator) {
