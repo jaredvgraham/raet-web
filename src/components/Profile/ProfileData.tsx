@@ -23,6 +23,8 @@ import Header from "../Header";
 import EditProfileScreen from "./EditProfileScreen";
 import { SignOutButton } from "@clerk/nextjs";
 import { useNotification } from "@/hooks/webPush";
+import { PutBlobResult } from "@vercel/blob";
+import { upload } from "@vercel/blob/client";
 
 type ProfileDataProps = {
   profile: Profile;
@@ -37,8 +39,11 @@ const ProfileData = ({ profile, setPreview }: ProfileDataProps) => {
   const [city, setCity] = useState<string | undefined>();
   const [blockedUsers, setBlockedUsers] = useState<Profile[]>([]);
   const [showBlockedUsers, setShowBlockedUsers] = useState(false);
+  const [existingImages, setExistingImages] = useState<string[]>([]);
 
   useEffect(() => {
+    setExistingImages(profile.images || []);
+
     const getCity = async () => {
       const cityName = await getCityFromLocation(
         profile?.location?.coordinates[1],
@@ -72,21 +77,38 @@ const ProfileData = ({ profile, setPreview }: ProfileDataProps) => {
 
   const sendData = async (updatedProfile: Profile) => {
     try {
-      const formData = new FormData();
+      const keptImages = updatedProfile.images.filter((image) =>
+        existingImages.includes(image)
+      );
 
-      formData.append("name", updatedProfile.name);
-      if (updatedProfile.bio) formData.append("bio", updatedProfile.bio);
-      formData.append("preferredGender", updatedProfile.preferredGender);
-      formData.append("maxDistance", updatedProfile.maxDistance.toString());
-      formData.append("interests", updatedProfile.interests.join(","));
+      const newImages = updatedProfile.images.filter(
+        (image) => !existingImages.includes(image)
+      );
 
-      for (const image of updatedProfile.images) {
-        formData.append("images", image); // Assuming `image` is a string
+      if (newImages) {
+        const uploadedBlobUrls = await Promise.all(
+          newImages.map(async (file: any) => {
+            const newBlob: PutBlobResult = await upload(
+              (file as any).name,
+              file,
+              {
+                access: "public",
+                handleUploadUrl: "/api/avatar/upload",
+              }
+            );
+            return newBlob.url;
+          })
+        );
+
+        updatedProfile.images = [...keptImages, ...uploadedBlobUrls];
       }
 
       const response = await authFetch("/user/profile", {
         method: "PATCH",
-        body: formData,
+        body: JSON.stringify({
+          ...updatedProfile,
+          imageUrls: updatedProfile.images,
+        }),
       });
 
       console.log("Profile updated successfully:", response);
