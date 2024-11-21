@@ -67,7 +67,7 @@ const ProfileData = ({ profile, setPreview }: ProfileDataProps) => {
     };
 
     getCity();
-    getBlockedUsers();
+    // getBlockedUsers();
   }, [profile?.location, authFetch]);
 
   const sendData = async (updatedProfile: Profile) => {

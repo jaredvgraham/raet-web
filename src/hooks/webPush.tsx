@@ -29,13 +29,18 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
   const [device, setDevice] = useState<"web" | "pwa" | null>(null);
 
   useEffect(() => {
-    setTimeout(() => {
-      detectDevice();
-      if (session?.getToken()) {
-        checkSubscription();
+    const initialize = async () => {
+      console.log("Initializing device detection...");
+      await detectDevice();
+
+      if (device && session?.getToken()) {
+        console.log("Calling checkSubscription...");
+        await checkSubscription();
       }
-    }, 1500);
-  }, [session]);
+    };
+
+    initialize().catch((err) => console.error("Initialization error:", err));
+  }, [session, device]);
 
   const detectDevice = async () => {
     // Check display mode using matchMedia and standalone
@@ -43,35 +48,53 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
       window.matchMedia("(display-mode: standalone)").matches ||
       (navigator as any).standalone; // For iOS Safari PWA
 
+    console.log("isStandalone", isStandalone);
+    console.log("isStandalone", isStandalone);
+    console.log("isStandalone", isStandalone);
+    console.log("isStandalone", isStandalone);
+
     if ("getInstalledRelatedApps" in navigator) {
       (navigator as any).getInstalledRelatedApps().then((relatedApps: any) => {
         if (relatedApps.length > 0) {
           // PWA is installed
+          console.log("PWA is installed");
+          console.log("PWA is installed");
+          console.log("PWA is installed");
+          console.log("PWA is installed");
+
           setDevice("pwa");
           return;
         }
       });
     }
     // Check if the service worker is active
-    let hasServiceWorker = false;
-    if ("serviceWorker" in navigator) {
-      const registration = await navigator.serviceWorker.ready.catch(
-        () => null
-      );
-      hasServiceWorker = !!registration;
-    }
 
     // Determine the device type based on combined conditions
-    if (isStandalone || hasServiceWorker) {
+    if (isStandalone) {
       setDevice("pwa");
     } else {
+      console.log("setting device to web");
+      console.log("setting device to web");
+      console.log("setting device to web");
+      console.log("setting device to web");
+
       setDevice("web");
     }
   };
 
   const checkSubscription = async () => {
+    console.log("checkSubscription");
+    console.log("checkSubscription");
+    console.log("checkSubscription");
+    console.log("checkSubscription");
+
+    console.log("Device detected:", device);
+
     if (!device) detectDevice();
-    if (!device) return;
+    if (!device) {
+      console.error("Device type is not defined.");
+      return;
+    }
 
     try {
       const data = await authFetch("/push/check", {
@@ -80,6 +103,12 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
         body: JSON.stringify({ device }),
       });
       console.log("data", data.subscription);
+      console.log("check response", data);
+      console.log("check response", data);
+      console.log("check response", data);
+      console.log("check response", data);
+      console.log("check response", data);
+      console.log("check response", data);
 
       setIsSubscribed(true);
 
