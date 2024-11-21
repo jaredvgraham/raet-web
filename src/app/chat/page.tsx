@@ -159,7 +159,7 @@ const Chat = () => {
   if (noMatches && noConversations) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
-        <Header />
+        <Header style="w-full" />
         <p className="text-center text-2xl text-gray-500">
           Nothing to see yet. Keep swiping!
         </p>
