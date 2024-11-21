@@ -127,7 +127,7 @@ const ProfileData = ({ profile, setPreview }: ProfileDataProps) => {
       });
 
       console.log("Profile updated successfully:", response);
-      // window.location.reload();
+      window.location.reload();
     } catch (error) {
       console.error("Error updating profile:", error);
     }
