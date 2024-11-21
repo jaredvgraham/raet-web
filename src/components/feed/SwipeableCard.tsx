@@ -163,7 +163,7 @@ const SwipeableCard = ({
             src={profile.images[currentImageIndex]}
             alt={profile.name}
             fill
-            className="object-cover"
+            className="object-cover w-full h-full"
           />
           {/* Gradient Overlay */}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4 text-white">
