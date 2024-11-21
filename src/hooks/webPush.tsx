@@ -29,7 +29,9 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
   const [device, setDevice] = useState<"web" | "pwa">("web");
 
   useEffect(() => {
-    detectDevice();
+    setTimeout(() => {
+      detectDevice();
+    }, 1500);
     if (session?.getToken()) {
       checkSubscription();
     }
