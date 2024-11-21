@@ -203,8 +203,12 @@ const Onboarding = () => {
     {
       title: "What are your interests?",
       component: (
-        <div className="w-full">
-          <div className="flex gap-2 mb-4 overflow-x-scroll">
+        <div className="w-full ">
+          <div
+            className="flex gap-2 mb-4 overflow-x-scroll swiper-no-swiping "
+            onClick={(e) => e.stopPropagation()}
+            style={{ WebkitOverflowScrolling: "touch" }}
+          >
             {predefinedInterests.map((interest) => (
               <button
                 key={interest}
