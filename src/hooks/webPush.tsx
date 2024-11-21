@@ -10,7 +10,7 @@ type NotificationContextType = {
   isSubscribed: boolean;
   subscribeToNotifications: () => Promise<void>;
   unsubscribeFromNotifications: () => Promise<void>;
-  device: "web" | "pwa";
+  device: "web" | "pwa" | null;
 };
 
 const NotificationContext = createContext<NotificationContextType | undefined>(
@@ -26,15 +26,15 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
     null
   );
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const [device, setDevice] = useState<"web" | "pwa">("web");
+  const [device, setDevice] = useState<"web" | "pwa" | null>(null);
 
   useEffect(() => {
     setTimeout(() => {
       detectDevice();
+      if (session?.getToken()) {
+        checkSubscription();
+      }
     }, 1500);
-    if (session?.getToken()) {
-      checkSubscription();
-    }
   }, [session]);
 
   const detectDevice = async () => {
@@ -70,6 +70,9 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const checkSubscription = async () => {
+    if (!device) detectDevice();
+    if (!device) return;
+
     try {
       const data = await authFetch("/push/check", {
         method: "POST",
