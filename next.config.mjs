@@ -7,8 +7,8 @@ const nextConfig = {
   },
   images: {
     domains: [
-      "ul0rw9se046nebaq.public.blob.vercel-storage.com", // Add your domain here
-      // Add other domains if needed
+      "ul0rw9se046nebaq.public.blob.vercel-storage.com",
+      "raet-bucket.s3.us-east-2.amazonaws.com",
     ],
   },
 };
