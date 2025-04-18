@@ -71,6 +71,11 @@ export async function POST(req: NextRequest) {
     const eventType = evt.type;
 
     if (eventType === "user.created") {
+      const checkUser = evt.data;
+      if (checkUser.public_metadata?.source === "mobile") {
+        return new Response("Skipping mobile signup", { status: 200 });
+      }
+
       const { id, email_addresses, username } = evt.data;
       const user = {
         clerkId: id,
